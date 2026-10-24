@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Change the site</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1c1915;
+        --paper: #f6f3ec;
+        --line: #d9d1c3;
+        --accent: #0f6e56;
+        --danger: #8f2d2d;
+        font-family: "Iowan Old Style", Georgia, serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      main {
+        max-width: 34rem;
+        margin: 0 auto;
+        padding: calc(1.25rem + env(safe-area-inset-top)) 1rem calc(2rem + env(safe-area-inset-bottom));
+      }
+      h1 {
+        font-size: 1.8rem;
+        line-height: 1.15;
+        margin: 0 0 0.35rem;
+      }
+      .lede {
+        margin: 0 0 1.25rem;
+        line-height: 1.45;
+      }
+      label {
+        display: block;
+        font-size: 0.95rem;
+        margin: 0.9rem 0 0.35rem;
+      }
+      textarea, input {
+        width: 100%;
+        font: 1rem/1.4 system-ui, sans-serif;
+        color: var(--ink);
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 0.6rem;
+        padding: 0.75rem;
+      }
+      textarea { min-height: 7rem; resize: vertical; }
+      button {
+        margin-top: 1rem;
+        width: 100%;
+        font: 1rem/1 system-ui, sans-serif;
+        padding: 0.9rem 1rem;
+        border: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+      }
+      button.secondary {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      button:disabled { opacity: 0.55; }
+      #status {
+        margin-top: 1.25rem;
+        white-space: pre-wrap;
+        line-height: 1.45;
+        font-family: system-ui, sans-serif;
+      }
+      #status.error { color: var(--danger); }
+      .row { display: flex; gap: 0.6rem; }
+      .row button { width: auto; flex: 1; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Change the site</h1>
+      <p class="lede">Describe the edit. The remote agent updates the site and reports back here.</p>
+      <form id="change-form">
+        <label for="token">Access token</label>
+        <input id="token" name="token" type="password" autocomplete="current-password" placeholder="Required from a phone" />
+        <label for="instruction">Change</label>
+        <textarea id="instruction" name="instruction" required placeholder="Make the headline say Welcome home"></textarea>
+        <div class="row">
+          <button id="send" type="submit">Send</button>
+          <button id="fresh" class="secondary" type="button">New request</button>
+        </div>
+      </form>
+      <p id="status" role="status"></p>
+    </main>
+    <script>
+      const form = document.querySelector("#change-form");
+      const tokenInput = document.querySelector("#token");
+      const instructionInput = document.querySelector("#instruction");
+      const sendButton = document.querySelector("#send");
+      const freshButton = document.querySelector("#fresh");
+      const statusNode = document.querySelector("#status");
+      const tokenKey = "zender-mobile-token";
+      const apiUrl = new URL("../mobile/change", window.location.href);
+      let requestId = newRequestId();
+      let pollTimer = 0;
+
+      tokenInput.value = localStorage.getItem(tokenKey) ?? "";
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const instruction = instructionInput.value.trim();
+        if (!instruction) return;
+        const token = tokenInput.value.trim();
+        if (token) localStorage.setItem(tokenKey, token);
+        else localStorage.removeItem(tokenKey);
+        void submitChange(instruction, token);
+      });
+
+      freshButton.addEventListener("click", () => {
+        window.clearInterval(pollTimer);
+        requestId = newRequestId();
+        instructionInput.value = "";
+        sendButton.textContent = "Send";
+        setStatus("Ready for a new change.");
+      });
+
+      function newRequestId() {
+        const bytes = new Uint8Array(9);
+        crypto.getRandomValues(bytes);
+        return `mob${Array.from(bytes, (byte) => (byte % 36).toString(36)).join("")}`;
+      }
+
+      async function submitChange(instruction, token) {
+        sendButton.disabled = true;
+        setStatus("Sending…");
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: headers(token),
+            body: JSON.stringify({ requestId, instruction }),
+          });
+          if (!response.ok && response.status !== 202) {
+            const detail = await response.text();
+            setStatus(`The agent refused the request (${response.status}). ${detail}`.trim(), true);
+            return;
+          }
+          sendButton.textContent = "Send follow-up";
+          setStatus("Accepted. Waiting for the edit…");
+          poll(token);
+        } catch (error) {
+          setStatus(error instanceof Error ? error.message : "Could not reach the agent.", true);
+        } finally {
+          sendButton.disabled = false;
+        }
+      }
+
+      function poll(token) {
+        window.clearInterval(pollTimer);
+        const started = Date.now();
+        pollTimer = window.setInterval(() => {
+          void readStatus(token, started);
+        }, 1500);
+      }
+
+      async function readStatus(token, started) {
+        try {
+          const url = new URL(apiUrl);
+          url.searchParams.set("requestId", requestId);
+          const response = await fetch(url, { headers: headers(token) });
+          if (!response.ok) {
+            setStatus(`Status check failed (${response.status}).`, true);
+            window.clearInterval(pollTimer);
+            return;
+          }
+          const payload = await response.json();
+          const change = payload.change;
+          if (!change || change.status === "missing" || change.status === "accepted") {
+            if (Date.now() - started > 120000) {
+              window.clearInterval(pollTimer);
+              setStatus("Still working. Check the agent logs, then send a follow-up.", true);
+            }
+            return;
+          }
+          window.clearInterval(pollTimer);
+          const files = Array.isArray(change.files) && change.files.length
+            ? `\nFiles: ${change.files.join(", ")}`
+            : "";
+          const summary = change.summary ? `\n${change.summary}` : "";
+          const reply = change.reply ?? (change.status === "failed" ? "The change failed." : "Done.");
+          setStatus(`${reply}${summary}${files}`, change.status === "failed");
+        } catch (error) {
+          window.clearInterval(pollTimer);
+          setStatus(error instanceof Error ? error.message : "Status check failed.", true);
+        }
+      }
+
+      function headers(token) {
+        const result = {
+          "content-type": "application/json",
+          "x-bdk-session-key": `change:${requestId}`,
+        };
+        if (token) result.authorization = `Bearer ${token}`;
+        return result;
+      }
+
+      function setStatus(message, isError = false) {
+        statusNode.textContent = message;
+        statusNode.classList.toggle("error", isError);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "remote-agent",
+  "private": true,
+  "type": "module",
+  "description": "Remote agent that applies site changes sent from a mobile app.",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "dev": "agent-sdk dev"
+  },
+  "dependencies": {
+    "@grok/agent-sdk": "^0.2.29",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typescript": "6.0.3"
+  }
+}
