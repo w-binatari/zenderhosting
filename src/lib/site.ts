@@ -17,8 +17,9 @@ export const ONBOARDING_URL = "https://app.zenderfinance.com/login";
 
 /**
  * Public desk WhatsApp, digits only, no plus.
- * The number printed elsewhere on the site is a placeholder, so the button
- * stays hidden until NEXT_PUBLIC_WHATSAPP_E164 is a real desk line.
+ * The floating button is always shown. It opens this line when
+ * NEXT_PUBLIC_WHATSAPP_E164 is set, and the enquiry form until then.
+ * The number printed elsewhere on the site is still a placeholder.
  */
 export const WHATSAPP_E164 = (
   process.env.NEXT_PUBLIC_WHATSAPP_E164 ?? ""
