@@ -13,7 +13,21 @@ export const HERO_HEADLINE =
 export const HERO_SUBCOPY =
   "We help African businesses and individuals move money across borders with clearer communication, responsive handling, and execution built around long-term trust, not transactional noise.";
 
-export const ONBOARDING_URL = "https://zender-portal-alpha.vercel.app/login";
+export const ONBOARDING_URL = "https://app.zenderfinance.com/login";
+
+/**
+ * Public desk WhatsApp, digits only, no plus.
+ * The number printed elsewhere on the site is a placeholder, so the button
+ * stays hidden until NEXT_PUBLIC_WHATSAPP_E164 is a real desk line.
+ */
+export const WHATSAPP_E164 = (
+  process.env.NEXT_PUBLIC_WHATSAPP_E164 ?? ""
+).replace(/\D/g, "");
+
+export function whatsAppHref(text: string): string | null {
+  if (!WHATSAPP_E164) return null;
+  return `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(text)}`;
+}
 
 export const CONTACT_EMAIL = "hello@zenderfinance.com";
 export const CONTACT_PHONE = "+234 800 000 0000";

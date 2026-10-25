@@ -21,7 +21,7 @@ export function FxRatesHero() {
       eyebrow="FX Rates"
       title="Indicative exchange rate references"
       description="Rates are indicative treasury desk references. Final pricing is confirmed through our treasury desk or onboarding platform at the point of transfer."
-      pills={["Daily refresh", "Indicative only", "Desk-confirmed pricing"]}
+      pills={["Indicative only", "Confirm with the desk"]}
       visual={<FxHeroVisual />}
     />
   );

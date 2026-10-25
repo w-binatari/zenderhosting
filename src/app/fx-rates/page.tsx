@@ -18,7 +18,7 @@ export default async function FxRatesPage() {
         <FxRatesContent data={fxRates} />
         <RichCta
           title="Need a confirmed rate?"
-          description="Displayed rates are indicative and refresh daily. Contact our treasury desk for confirmed pricing on your transfer or OTC conversation."
+          description="Displayed rates are indicative. Contact our treasury desk for confirmed pricing on your transfer or OTC conversation."
           secondaryHref="/products"
           secondaryLabel="Explore Services"
         />
