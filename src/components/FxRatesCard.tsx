@@ -41,7 +41,7 @@ export function FxRatesCard({ data, className = "" }: FxRatesCardProps) {
       <p className="mt-5 text-center text-[10px] text-white/40">
         {updatedLabel
           ? `Indicative desk rates · Updated ${updatedLabel}`
-          : "Indicative desk rates · confirm today's level with the desk"}
+          : "Indicative desk rates"}
       </p>
     </div>
   );
