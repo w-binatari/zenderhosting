@@ -10,10 +10,13 @@ import {
   HomeServices,
   HomeStats,
   HomeTreasuryBand,
+  HomeTradeBand,
   HomeWhoWeServe,
 } from "@/components/home/HomeSections";
 import { HomeHowItWorksScroll } from "@/components/home/HomeHowItWorksScroll";
+import { PhotoCredit } from "@/components/ui/FramedPhoto";
 import { RichCta } from "@/components/ui/RichCta";
+import { PHOTOS } from "@/lib/photos";
 import { getFxRates } from "@/lib/fx-rates";
 
 export default async function Home() {
@@ -27,12 +30,18 @@ export default async function Home() {
         <HeroBackground />
         <div className="relative flex min-h-screen flex-col pt-[5.5rem]">
           <Hero fxRates={fxRates} />
+          <PhotoCredit
+            photo={PHOTOS.lekkiLagoon}
+            tone="light"
+            className="mb-5 mr-6 mt-auto max-w-xs self-end pt-8 text-right"
+          />
         </div>
       </section>
 
       <HomeStats />
       <HomeIntro />
       <HomeWhoWeServe />
+      <HomeTradeBand />
       <HomeServices />
       <HomePlatformPreview />
       <HomeCurrencyCoverage />

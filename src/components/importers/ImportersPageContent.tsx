@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
+import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { RichPageHero } from "@/components/ui/RichPageHero";
+import { PHOTOS } from "@/lib/photos";
 
 const STEPS = [
   {
@@ -33,9 +35,14 @@ const CORRIDORS = [
 
 function InvoiceVisual() {
   return (
-    <>
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-zender-teal/15 to-zender-navy/10" />
-      <div className="relative glass-card rounded-2xl border border-zender-navy/10 p-6 shadow-xl">
+    <FramedPhoto
+      photo={PHOTOS.lagosHarbour}
+      className="min-h-[32rem]"
+      imageClassName="object-cover object-center"
+      sizes="(min-width: 1024px) 36rem, 100vw"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-[#021540]/75 via-[#021540]/10 to-[#021540]/20" />
+      <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/70 bg-white/95 p-6 shadow-xl">
         <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
           Supplier invoice
         </p>
@@ -54,7 +61,7 @@ function InvoiceVisual() {
           ))}
         </dl>
       </div>
-    </>
+    </FramedPhoto>
   );
 }
 

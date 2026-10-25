@@ -6,25 +6,27 @@ import {
   TRUST_SIGNALS,
   ZENDER_WAY_PILLARS,
 } from "@/lib/site";
+import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { RichPageHero } from "@/components/ui/RichPageHero";
+import { PHOTOS } from "@/lib/photos";
 import Image from "next/image";
 
 function AboutHeroVisual() {
   return (
-    <>
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-zender-teal/15 to-zender-navy/10" />
-      <div className="relative space-y-4">
-        <div className="glass-card-dark rounded-2xl bg-zender-navy/90 p-6 text-white shadow-xl">
+    <FramedPhoto
+      photo={PHOTOS.victoriaIsland}
+      className="min-h-[26rem]"
+      imageClassName="object-cover object-[center_40%]"
+      sizes="(min-width: 1024px) 36rem, 100vw"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-[#021540]/80 via-[#021540]/15 to-transparent" />
+      <div className="absolute inset-x-4 bottom-4 space-y-3">
+        <div className="glass-card-dark rounded-2xl bg-zender-navy/80 p-5 text-white shadow-xl">
           <p className="nav-link text-zender-teal">Our conviction</p>
           <p className="mt-3 text-xl font-semibold leading-snug">{BRAND_TAGLINE}</p>
         </div>
-        <div className="glass-card rounded-2xl p-5">
-          <p className="text-sm leading-relaxed text-zender-navy/65">
-            {ABOUT_STORY.familyExplanation}
-          </p>
-        </div>
       </div>
-    </>
+    </FramedPhoto>
   );
 }
 
@@ -56,18 +58,25 @@ export function AboutStory() {
             <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
               {ABOUT_STORY.conviction}
             </p>
+            <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
+              {ABOUT_STORY.familyExplanation}
+            </p>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-zender-mint to-zender-teal/10" />
-            <div className="relative glass-card rounded-2xl p-8">
+          <FramedPhoto
+            photo={PHOTOS.deskWork}
+            className="min-h-[28rem]"
+            imageClassName="object-cover object-[center_20%]"
+            sizes="(min-width: 1024px) 36rem, 100vw"
+          >
+            <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/70 bg-white/95 p-5 shadow-xl">
               <p className="nav-link text-zender-teal">What we stand for</p>
-              <p className="mt-4 text-base leading-relaxed text-zender-navy/70">
+              <p className="mt-3 text-sm leading-relaxed text-zender-navy/70">
                 Accessibility, responsiveness, and a deeper understanding of how
                 African businesses experience cross-border finance, simpler, more
                 transparent, more human, and more supportive of African growth.
               </p>
             </div>
-          </div>
+          </FramedPhoto>
         </div>
       </section>
 

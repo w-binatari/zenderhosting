@@ -18,7 +18,10 @@ import {
   ProductIcon,
   ProductMockup,
 } from "@/components/products/ProductVisuals";
+import { FramedPhoto, PhotoCredit } from "@/components/ui/FramedPhoto";
 import { OnboardingCta } from "@/components/ui/OnboardingCta";
+import { PHOTOS } from "@/lib/photos";
+import Image from "next/image";
 import Link from "next/link";
 
 export function HomeStats() {
@@ -65,31 +68,27 @@ export function HomeIntro() {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-zender-teal/15 to-zender-navy/10" />
-          <div className="relative space-y-4">
-            {ZENDER_WAY_PILLARS.map((pillar, i) => (
-              <div
-                key={pillar.title}
-                className="glass-card rounded-2xl p-5"
-                style={{ marginLeft: i % 2 === 1 ? "1.5rem" : "0" }}
-              >
-                <div className="flex items-start gap-4">
-                  <span className="font-nav text-2xl font-semibold text-zender-teal/30">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-semibold text-zender-navy">{pillar.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-zender-navy/60">
-                      {pillar.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div>
+          <FramedPhoto
+            photo={PHOTOS.lekkiBridge}
+            className="h-[34rem]"
+            imageClassName="object-cover object-[center_30%]"
+            sizes="(min-width: 1024px) 40vw, 100vw"
+          />
         </div>
       </div>
+
+      <ol className="mx-auto mt-16 grid max-w-6xl gap-4 md:grid-cols-3">
+        {ZENDER_WAY_PILLARS.map((pillar, i) => (
+          <li key={pillar.title} className="rounded-2xl border border-zender-navy/8 bg-white p-5">
+            <span className="font-nav text-2xl font-semibold text-zender-teal/30">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 className="mt-3 font-semibold text-zender-navy">{pillar.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-zender-navy/60">{pillar.description}</p>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
@@ -98,16 +97,23 @@ export function HomeWhoWeServe() {
   return (
     <section className="page-mesh px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="nav-link text-zender-teal">Who we serve</p>
-          <h2 className="mt-4 text-3xl font-semibold text-zender-navy sm:text-4xl">
-            Built for African business in motion
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
-            From SMEs and importers to remote teams and globally connected
-            professionals, Zender supports clients who need dependable
-            cross-border financial handling.
-          </p>
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <p className="nav-link text-zender-teal">Who we serve</p>
+            <h2 className="mt-4 text-3xl font-semibold text-zender-navy sm:text-4xl">
+              Built for African business in motion
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
+              From SMEs and importers to remote teams and globally connected
+              professionals, Zender supports clients who need dependable
+              cross-border financial handling.
+            </p>
+          </div>
+          <FramedPhoto
+            photo={PHOTOS.lagosColleagues}
+            className="aspect-[3/2]"
+            sizes="(min-width: 1024px) 36rem, 100vw"
+          />
         </div>
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -239,6 +245,40 @@ export function HomeServices() {
             );
           })}
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function HomeTradeBand() {
+  const photo = PHOTOS.containerTerminal;
+
+  return (
+    <section className="relative isolate min-h-[28rem] overflow-hidden">
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#021540]/85 via-[#031C66]/55 to-[#031C66]/20" />
+      <div className="relative mx-auto flex min-h-[28rem] max-w-6xl flex-col justify-end px-6 py-14 lg:px-8">
+        <p className="nav-link text-zender-teal">Supplier cargo</p>
+        <h2 className="mt-4 max-w-xl text-3xl font-semibold text-white sm:text-4xl">
+          The shipment moves when the supplier sees the funds.
+        </h2>
+        <p className="mt-4 max-w-lg text-base leading-relaxed text-white/75">
+          For importers, the useful conversation is the invoice amount, the
+          corridor, and the date the other side needs the money.
+        </p>
+        <Link
+          href="/importers"
+          className="mt-8 inline-flex w-fit rounded-full bg-white px-6 py-3 text-sm font-semibold text-zender-navy transition hover:bg-zender-mint"
+        >
+          Importer payments
+        </Link>
+        <PhotoCredit photo={photo} tone="light" className="mt-8" />
       </div>
     </section>
   );
@@ -409,9 +449,19 @@ export function HomeFaqPreview() {
 }
 
 export function HomeTreasuryBand() {
+  const photo = PHOTOS.victoriaIsland;
+
   return (
-    <section className="border-y border-zender-navy/8 bg-zender-navy px-6 py-16 text-white lg:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 text-center lg:flex-row lg:text-left">
+    <section className="relative isolate overflow-hidden border-y border-white/10 px-6 py-20 text-white lg:px-8">
+      <Image
+        src={photo.src}
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover object-[center_40%]"
+      />
+      <div className="absolute inset-0 bg-[#021540]/72" />
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 text-center lg:flex-row lg:text-left">
         <div className="max-w-xl">
           <p className="nav-link text-zender-teal">Treasury desk</p>
           <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">
@@ -437,6 +487,11 @@ export function HomeTreasuryBand() {
           </Link>
         </div>
       </div>
+      <PhotoCredit
+        photo={photo}
+        tone="light"
+        className="relative mx-auto mt-10 max-w-6xl text-center lg:text-left"
+      />
     </section>
   );
 }

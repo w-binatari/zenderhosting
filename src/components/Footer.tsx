@@ -73,8 +73,26 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Zender Finance. All rights reserved.
           </p>
           <p className="max-w-md text-center text-xs text-white/35 sm:text-right">
-            Information on this website is provided for general reference. Final
-            terms are confirmed through direct engagement with Zender.
+            Photography by the credited makers on{" "}
+            <a
+              href="https://unsplash.com/license"
+              className="underline-offset-2 hover:text-white hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Unsplash
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://www.pexels.com/license/"
+              className="underline-offset-2 hover:text-white hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Pexels
+            </a>
+            . Site information is general reference. Final terms are confirmed
+            with Zender.
           </p>
         </div>
       </div>

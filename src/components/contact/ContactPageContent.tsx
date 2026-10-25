@@ -1,14 +1,21 @@
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
+import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { OnboardingCta } from "@/components/ui/OnboardingCta";
 import { RichPageHero } from "@/components/ui/RichPageHero";
+import { PHOTOS } from "@/lib/photos";
 import { SocialLinks } from "@/components/SocialLinks";
 import { CONTACT_EMAIL, CONTACT_OFFICE, CONTACT_PHONE, whatsAppHref } from "@/lib/site";
 
 function ContactHeroVisual() {
   return (
-    <>
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-zender-teal/15 to-zender-navy/10" />
-      <div className="relative glass-card rounded-2xl border border-zender-navy/10 p-6 shadow-xl">
+    <FramedPhoto
+      photo={PHOTOS.deskWork}
+      className="min-h-[28rem]"
+      imageClassName="object-cover object-[center_15%]"
+      sizes="(min-width: 1024px) 36rem, 100vw"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-[#021540]/70 via-transparent to-[#021540]/15" />
+      <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/70 bg-white/95 p-6 shadow-xl">
         <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
           Treasury desk
         </p>
@@ -32,7 +39,7 @@ function ContactHeroVisual() {
           )}
         </div>
       </div>
-    </>
+    </FramedPhoto>
   );
 }
 
