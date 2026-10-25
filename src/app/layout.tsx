@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Oswald } from "next/font/google";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dmSans.variable} ${oswald.variable} font-sans antialiased`}>
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

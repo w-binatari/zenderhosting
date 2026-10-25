@@ -5,6 +5,7 @@ import { BRAND_TAGLINE, ONBOARDING_URL } from "@/lib/site";
 
 const footerLinks = {
   Services: [
+    { label: "Importers", href: "/importers" },
     { label: "Cross-Border Payments", href: "/products#cross-border-payments" },
     { label: "OTC & Treasury", href: "/products#otc-treasury" },
     { label: "Lending Solutions", href: "/products#lending-solutions" },

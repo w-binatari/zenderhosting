@@ -218,7 +218,7 @@ export function BrowserChrome({ children }: { children: React.ReactNode }) {
         <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
         <div className="ml-3 flex-1 rounded-md bg-white px-3 py-1 text-[10px] text-zender-navy/40">
-          zender-portal-alpha.vercel.app
+          app.zenderfinance.com
         </div>
       </div>
       <div className="p-5">{children}</div>

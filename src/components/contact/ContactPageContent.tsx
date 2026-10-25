@@ -1,7 +1,8 @@
+import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { OnboardingCta } from "@/components/ui/OnboardingCta";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { SocialLinks } from "@/components/SocialLinks";
-import { CONTACT_EMAIL, CONTACT_OFFICE, CONTACT_PHONE } from "@/lib/site";
+import { CONTACT_EMAIL, CONTACT_OFFICE, CONTACT_PHONE, whatsAppHref } from "@/lib/site";
 
 function ContactHeroVisual() {
   return (
@@ -47,7 +48,15 @@ export function ContactHero() {
   );
 }
 
-export function ContactPageContent() {
+export function ContactPageContent({
+  defaults,
+}: {
+  defaults?: { amount?: string; currency?: string; corridor?: string; note?: string };
+}) {
+  const whatsApp = whatsAppHref(
+    "Hello Zender desk. I would like to discuss a supplier or cross-border payment.",
+  );
+
   return (
     <section className="dot-grid bg-white px-6 py-20 lg:px-8">
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-2">
@@ -67,6 +76,9 @@ export function ContactPageContent() {
               { label: "Email", value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
               { label: "Phone", value: CONTACT_PHONE, href: `tel:${CONTACT_PHONE.replace(/\s/g, "")}` },
               { label: "Office", value: CONTACT_OFFICE, href: undefined },
+              ...(whatsApp
+                ? [{ label: "WhatsApp", value: "Message the desk", href: whatsApp }]
+                : []),
             ].map((item) => (
               <div
                 key={item.label}
@@ -78,6 +90,9 @@ export function ContactPageContent() {
                 {item.href ? (
                   <a
                     href={item.href}
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="mt-1 block font-medium text-zender-navy transition hover:text-zender-teal"
                   >
                     {item.value}
@@ -112,65 +127,7 @@ export function ContactPageContent() {
           </div>
         </div>
 
-        <form className="glass-card relative overflow-hidden rounded-2xl p-8 shadow-xl">
-          <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-zender-teal/10 blur-2xl" />
-          <h3 className="relative text-lg font-semibold text-zender-navy">
-            Send an enquiry
-          </h3>
-          <p className="relative mt-2 text-sm text-zender-navy/55">
-            Share a few details and we&apos;ll get back to you.
-          </p>
-          <div className="relative mt-6 space-y-4">
-            {[
-              { id: "name", label: "Full name", type: "text", placeholder: "Your name" },
-              { id: "email", label: "Email", type: "email", placeholder: "you@company.com" },
-            ].map((field) => (
-              <div key={field.id}>
-                <label htmlFor={field.id} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
-                  {field.label}
-                </label>
-                <input
-                  id={field.id}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  className="mt-1.5 w-full rounded-xl border border-zender-navy/15 px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal"
-                />
-              </div>
-            ))}
-            <div>
-              <label htmlFor="subject" className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
-                Enquiry type
-              </label>
-              <select
-                id="subject"
-                className="mt-1.5 w-full rounded-xl border border-zender-navy/15 px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal"
-              >
-                <option>Cross-border payments</option>
-                <option>OTC &amp; treasury</option>
-                <option>Lending solutions</option>
-                <option>Partnerships</option>
-                <option>Platform support</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={4}
-                placeholder="Tell us about your needs"
-                className="mt-1.5 w-full resize-none rounded-xl border border-zender-navy/15 px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal"
-              />
-            </div>
-            <button
-              type="button"
-              className="w-full rounded-full bg-zender-teal py-3.5 text-sm font-semibold text-white transition hover:bg-zender-navy"
-            >
-              Send Enquiry
-            </button>
-          </div>
-        </form>
+        <EnquiryForm id="enquiry" defaults={defaults} />
       </div>
     </section>
   );

@@ -32,10 +32,10 @@ export function Hero({ fxRates }: HeroProps) {
           Contact Treasury Desk
         </Link>
         <Link
-          href="/fx-rates"
+          href="/fx-rates#convert"
           className="inline-flex min-w-[180px] items-center justify-center rounded-full border border-white/60 bg-transparent px-8 py-3.5 text-[15px] font-semibold text-white transition hover:border-white hover:bg-white/10"
         >
-          View FX Rates
+          Convert an amount
         </Link>
       </div>
     </section>

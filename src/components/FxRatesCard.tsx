@@ -7,6 +7,8 @@ type FxRatesCardProps = {
 };
 
 export function FxRatesCard({ data, className = "" }: FxRatesCardProps) {
+  const updatedLabel = formatUpdatedAt(data.updatedAt);
+
   return (
     <div
       className={`glass-panel flex w-full max-w-3xl flex-col justify-center rounded-[2rem] px-6 py-7 sm:aspect-[5/2] sm:min-h-[280px] sm:px-8 sm:py-8 lg:min-h-[320px] ${className || "mt-10"}`}
@@ -37,7 +39,9 @@ export function FxRatesCard({ data, className = "" }: FxRatesCardProps) {
       </ul>
 
       <p className="mt-5 text-center text-[10px] text-white/40">
-        Indicative desk rates · Updated {formatUpdatedAt(data.updatedAt)}
+        {updatedLabel
+          ? `Indicative desk rates · Updated ${updatedLabel}`
+          : "Indicative desk rates"}
       </p>
     </div>
   );

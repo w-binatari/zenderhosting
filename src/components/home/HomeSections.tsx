@@ -111,17 +111,36 @@ export function HomeWhoWeServe() {
         </div>
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {CUSTOMER_PROFILES.map((profile) => (
-            <div
-              key={profile}
-              className="glass-card flex items-center gap-4 rounded-2xl p-5 transition hover:border-zender-teal/30 hover:shadow-md"
-            >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zender-teal/10 text-zender-teal">
-                <ProfileIcon profile={profile} />
-              </span>
-              <p className="text-sm font-semibold text-zender-navy">{profile}</p>
-            </div>
-          ))}
+          {CUSTOMER_PROFILES.map((profile) => {
+            const importer = profile === "Importers & exporters";
+            const className =
+              "glass-card flex items-center gap-4 rounded-2xl p-5 transition hover:border-zender-teal/30 hover:shadow-md";
+            const body = (
+              <>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zender-teal/10 text-zender-teal">
+                  <ProfileIcon profile={profile} />
+                </span>
+                <span>
+                  <p className="text-sm font-semibold text-zender-navy">{profile}</p>
+                  {importer ? (
+                    <p className="mt-1 text-xs font-semibold text-zender-teal">
+                      Supplier payments →
+                    </p>
+                  ) : null}
+                </span>
+              </>
+            );
+
+            return importer ? (
+              <Link key={profile} href="/importers" className={className}>
+                {body}
+              </Link>
+            ) : (
+              <div key={profile} className={className}>
+                {body}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -199,12 +218,22 @@ export function HomeServices() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href={`/products#${service.slug}`}
-                    className="mt-6 inline-flex text-sm font-semibold text-zender-teal transition hover:text-zender-navy"
-                  >
-                    Learn more →
-                  </Link>
+                  <div className="mt-6 flex flex-col items-start gap-3">
+                    <Link
+                      href={`/products#${service.slug}`}
+                      className="inline-flex text-sm font-semibold text-zender-teal transition hover:text-zender-navy"
+                    >
+                      Learn more →
+                    </Link>
+                    {service.slug === "cross-border-payments" ? (
+                      <Link
+                        href="/importers"
+                        className="inline-flex text-sm font-semibold text-zender-teal transition hover:text-zender-navy"
+                      >
+                        Importers paying overseas suppliers →
+                      </Link>
+                    ) : null}
+                  </div>
                 </div>
               </article>
             );
