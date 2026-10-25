@@ -15,15 +15,13 @@ export const HERO_SUBCOPY =
 
 export const ONBOARDING_URL = "https://app.zenderfinance.com/login";
 
-/**
- * Public desk WhatsApp, digits only, no plus.
- * The floating button is always shown. It opens this line when
- * NEXT_PUBLIC_WHATSAPP_E164 is set, and the enquiry form until then.
- * The number printed elsewhere on the site is still a placeholder.
- */
+/** Public desk line. Digits only, no plus. Env overrides the published number. */
+const PUBLISHED_WHATSAPP_E164 = "2349035573575";
+
 export const WHATSAPP_E164 = (
-  process.env.NEXT_PUBLIC_WHATSAPP_E164 ?? ""
-).replace(/\D/g, "");
+  (process.env.NEXT_PUBLIC_WHATSAPP_E164 ?? "").replace(/\D/g, "") ||
+  PUBLISHED_WHATSAPP_E164
+);
 
 export function whatsAppHref(text: string): string | null {
   if (!WHATSAPP_E164) return null;
@@ -31,7 +29,7 @@ export function whatsAppHref(text: string): string | null {
 }
 
 export const CONTACT_EMAIL = "hello@zenderfinance.com";
-export const CONTACT_PHONE = "+234 800 000 0000";
+export const CONTACT_PHONE = "+234 903 557 3575";
 export const CONTACT_OFFICE = "Lagos, Nigeria";
 
 export const SOCIAL_LINKS = [

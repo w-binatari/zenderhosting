@@ -84,7 +84,7 @@ export function ContactPageContent({
               { label: "Phone", value: CONTACT_PHONE, href: `tel:${CONTACT_PHONE.replace(/\s/g, "")}` },
               { label: "Office", value: CONTACT_OFFICE, href: undefined },
               ...(whatsApp
-                ? [{ label: "WhatsApp", value: "Message the desk", href: whatsApp }]
+                ? [{ label: "WhatsApp", value: CONTACT_PHONE, href: whatsApp }]
                 : []),
             ].map((item) => (
               <div

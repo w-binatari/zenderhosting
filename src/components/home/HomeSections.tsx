@@ -18,7 +18,7 @@ import {
   ProductIcon,
   ProductMockup,
 } from "@/components/products/ProductVisuals";
-import { FramedPhoto, PhotoCredit } from "@/components/ui/FramedPhoto";
+import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { OnboardingCta } from "@/components/ui/OnboardingCta";
 import { PHOTOS } from "@/lib/photos";
 import Image from "next/image";
@@ -278,7 +278,6 @@ export function HomeTradeBand() {
         >
           Importer payments
         </Link>
-        <PhotoCredit photo={photo} tone="light" className="mt-8" />
       </div>
     </section>
   );
@@ -487,11 +486,6 @@ export function HomeTreasuryBand() {
           </Link>
         </div>
       </div>
-      <PhotoCredit
-        photo={photo}
-        tone="light"
-        className="relative mx-auto mt-10 max-w-6xl text-center lg:text-left"
-      />
     </section>
   );
 }
