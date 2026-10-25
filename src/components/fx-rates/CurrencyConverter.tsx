@@ -152,12 +152,13 @@ function CurrencySelect({
         <select
           id={id}
           value={value}
+          title={currencies.find((currency) => currency.code === value)?.name}
           onChange={(event) => onChange(event.target.value)}
           className="w-full appearance-none rounded-xl border border-zender-navy/15 bg-white py-3 pl-12 pr-8 text-sm font-medium text-zender-navy outline-none transition focus:border-zender-teal"
         >
           {currencies.map((currency) => (
             <option key={currency.code} value={currency.code}>
-              {currency.code} · {currency.name}
+              {currency.code}
             </option>
           ))}
         </select>
