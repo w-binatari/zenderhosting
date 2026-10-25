@@ -12,19 +12,37 @@ import { CONTACT_EMAIL, whatsAppHref } from "@/lib/site";
 const fieldClass =
   "mt-1.5 w-full rounded-xl border border-zender-navy/15 px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal";
 
+type EnquiryDefaults = {
+  amount?: string;
+  currency?: string;
+  corridor?: string;
+  note?: string;
+};
+
 type EnquiryFormProps = {
   id?: string;
   segment?: Enquiry["segment"];
   heading?: string;
   intro?: string;
+  defaults?: EnquiryDefaults;
 };
+
+function allowed<T extends string>(value: string | undefined, options: readonly T[]): T | undefined {
+  return options.find((option) => option === value);
+}
 
 export function EnquiryForm({
   id = "enquiry",
   segment = "general",
   heading = "Send an enquiry",
   intro = "Amount, corridor, and timeline are enough for the desk to reply.",
+  defaults,
 }: EnquiryFormProps) {
+  const amountDefault =
+    defaults?.amount && Number(defaults.amount) > 0 ? defaults.amount : undefined;
+  const currencyDefault = allowed(defaults?.currency, ENQUIRY_CURRENCIES) ?? "USD";
+  const corridorDefault = allowed(defaults?.corridor, ENQUIRY_CORRIDORS) ?? "";
+  const noteDefault = defaults?.note?.slice(0, 1000) || undefined;
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
   const whatsApp = whatsAppHref(
@@ -105,13 +123,13 @@ export function EnquiryForm({
             <label htmlFor={`${id}-amount`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
               Amount
             </label>
-            <input id={`${id}-amount`} name="amount" type="number" required min="1" step="0.01" inputMode="decimal" placeholder="25000" className={fieldClass} />
+            <input id={`${id}-amount`} name="amount" type="number" required min="1" step="0.01" inputMode="decimal" placeholder="25000" defaultValue={amountDefault} className={fieldClass} />
           </div>
           <div>
             <label htmlFor={`${id}-currency`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
               Currency
             </label>
-            <select id={`${id}-currency`} name="currency" required defaultValue="USD" className={fieldClass}>
+            <select id={`${id}-currency`} name="currency" required defaultValue={currencyDefault} className={fieldClass}>
               {ENQUIRY_CURRENCIES.map((currency) => (
                 <option key={currency}>{currency}</option>
               ))}
@@ -122,7 +140,7 @@ export function EnquiryForm({
           <label htmlFor={`${id}-corridor`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
             Corridor
           </label>
-          <select id={`${id}-corridor`} name="corridor" required defaultValue="" className={fieldClass}>
+          <select id={`${id}-corridor`} name="corridor" required defaultValue={corridorDefault} className={fieldClass}>
             <option value="" disabled>
               Where are the funds going?
             </option>
@@ -148,7 +166,7 @@ export function EnquiryForm({
           <label htmlFor={`${id}-note`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
             Invoice note <span className="normal-case tracking-normal">(optional)</span>
           </label>
-          <textarea id={`${id}-note`} name="note" rows={3} placeholder="Supplier country, invoice reference, or anything the desk should know" className={`${fieldClass} resize-none`} />
+          <textarea id={`${id}-note`} name="note" rows={3} placeholder="Supplier country, invoice reference, or anything the desk should know" defaultValue={noteDefault} className={`${fieldClass} resize-none`} />
         </div>
 
         <button

@@ -48,7 +48,11 @@ export function ContactHero() {
   );
 }
 
-export function ContactPageContent() {
+export function ContactPageContent({
+  defaults,
+}: {
+  defaults?: { amount?: string; currency?: string; corridor?: string; note?: string };
+}) {
   const whatsApp = whatsAppHref(
     "Hello Zender desk. I would like to discuss a supplier or cross-border payment.",
   );
@@ -123,7 +127,7 @@ export function ContactPageContent() {
           </div>
         </div>
 
-        <EnquiryForm id="enquiry" />
+        <EnquiryForm id="enquiry" defaults={defaults} />
       </div>
     </section>
   );
