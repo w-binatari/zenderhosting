@@ -1,12 +1,19 @@
 import { BRAND_POSITIONING, SERVICES, TRUST_SIGNALS } from "@/lib/site";
+import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { RichPageHero } from "@/components/ui/RichPageHero";
+import { PHOTOS } from "@/lib/photos";
 
 function ProductsHeroVisual() {
   return (
-    <>
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-zender-teal/20 via-transparent to-zender-navy/10" />
-      <div className="relative grid gap-4 sm:grid-cols-2">
-        <div className="glass-card rounded-2xl p-5 shadow-xl sm:translate-y-6">
+    <FramedPhoto
+      photo={PHOTOS.containerTerminal}
+      className="min-h-[28rem]"
+      imageClassName="object-cover object-center"
+      sizes="(min-width: 1024px) 36rem, 100vw"
+    >
+      <div className="absolute inset-0 bg-[#021540]/45" />
+      <div className="relative grid gap-4 p-4 sm:grid-cols-2 sm:p-5">
+        <div className="rounded-2xl border border-white/70 bg-white/95 p-5 shadow-xl">
           <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
             Focus
           </p>
@@ -15,14 +22,14 @@ function ProductsHeroVisual() {
           </p>
           <p className="mt-1 text-sm text-zender-navy/55">Built for African markets</p>
         </div>
-        <div className="glass-card-dark rounded-2xl bg-zender-navy/90 p-5 text-white shadow-xl">
+        <div className="rounded-2xl bg-zender-navy p-5 text-white shadow-xl">
           <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
             Approach
           </p>
           <p className="mt-2 text-lg font-semibold">Relationship-led</p>
-          <p className="mt-1 text-sm text-white/60">Responsive, clear, accountable</p>
+          <p className="mt-1 text-sm text-white/75">Responsive, clear, accountable</p>
         </div>
-        <div className="glass-card col-span-full rounded-2xl p-5 shadow-lg">
+        <div className="col-span-full rounded-2xl border border-white/70 bg-white/95 p-5 shadow-lg">
           <p className="text-sm font-semibold text-zender-navy">
             {SERVICES.length} core service areas
           </p>
@@ -31,7 +38,7 @@ function ProductsHeroVisual() {
           </p>
         </div>
       </div>
-    </>
+    </FramedPhoto>
   );
 }
 

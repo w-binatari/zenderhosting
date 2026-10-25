@@ -10,6 +10,7 @@ import {
   HomeServices,
   HomeStats,
   HomeTreasuryBand,
+  HomeTradeBand,
   HomeWhoWeServe,
 } from "@/components/home/HomeSections";
 import { HomeHowItWorksScroll } from "@/components/home/HomeHowItWorksScroll";
@@ -33,6 +34,7 @@ export default async function Home() {
       <HomeStats />
       <HomeIntro />
       <HomeWhoWeServe />
+      <HomeTradeBand />
       <HomeServices />
       <HomePlatformPreview />
       <HomeCurrencyCoverage />

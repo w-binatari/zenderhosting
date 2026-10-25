@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FxRatesCard } from "@/components/FxRatesCard";
 import type { FxRatesData } from "@/lib/fx-rates";
+import { PHOTOS } from "@/lib/photos";
 import { HERO_HEADLINE, HERO_SUBCOPY } from "@/lib/site";
 
 type HeroProps = {
@@ -43,18 +44,28 @@ export function Hero({ fxRates }: HeroProps) {
 }
 
 export function HeroBackground() {
+  const photo = PHOTOS.lekkiLagoon;
+
   return (
     <div className="pointer-events-none absolute inset-0">
       <Image
-        src="/hero.png"
+        src={photo.src}
         alt=""
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-[center_35%]"
         sizes="100vw"
       />
       <div
-        className="absolute inset-0 bg-gradient-to-br from-[#00BB76] to-[#031C66] opacity-80"
+        className="pointer-events-none absolute inset-0 bg-[#031C66]/40"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#021540]/80 via-[#031C66]/25 to-[#021540]/85"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#00BB76]/30 via-transparent to-transparent"
         aria-hidden="true"
       />
     </div>

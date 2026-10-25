@@ -1,5 +1,6 @@
 import { OnboardingCta } from "@/components/ui/OnboardingCta";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { CONTACT_PHONE } from "@/lib/site";
 
 export function ContactContent() {
   return (
@@ -29,10 +30,10 @@ export function ContactContent() {
                 Phone
               </p>
               <a
-                href="tel:+2348000000000"
+                href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
                 className="mt-1 block text-zender-navy transition hover:text-zender-teal"
               >
-                +234 800 000 0000
+                {CONTACT_PHONE}
               </a>
             </div>
             <div>
