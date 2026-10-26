@@ -13,8 +13,8 @@ import type { FxRatesData } from "@/lib/fx-rates";
 import { formatUpdatedAt } from "@/lib/rate-stamp";
 
 const CURRENCIES = ["USD", "GBP", "EUR", "NGN"] as const;
-/** Keeps formatted amounts like 999,999,999.99 from overflowing the hero panel. */
-const MAX_INTEGER_DIGITS = 9;
+/** Caps at hundreds of billions (999,999,999,999.99) so the hero layout stays intact. */
+const MAX_INTEGER_DIGITS = 12;
 const MAX_FRACTION_DIGITS = 2;
 
 type HeroRateTabletProps = {
@@ -60,37 +60,35 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
             >
               Amount
             </label>
-            <div className="mt-2 rounded-lg border border-white/40 bg-white px-4 py-3 shadow-sm transition focus-within:border-zender-teal focus-within:ring-2 focus-within:ring-zender-teal/40">
-              <input
-                id="hero-amount"
-                inputMode="decimal"
-                autoComplete="off"
-                value={amountText}
-                placeholder="1,000"
-                onChange={(event) => {
-                  const input = event.target;
-                  const cursor = input.selectionStart ?? input.value.length;
-                  const before = input.value.slice(0, cursor);
-                  const inFraction = before.includes(".");
-                  const intDigits = countDigits(before.split(".")[0] ?? "");
-                  const fracDigits = inFraction
-                    ? countDigits(before.split(".")[1] ?? "")
-                    : 0;
-                  const next = formatGroupedAmount(input.value);
-                  setAmountText(next);
-                  requestAnimationFrame(() => {
-                    const pos = restoreCaret(
-                      next,
-                      Math.min(intDigits, MAX_INTEGER_DIGITS),
-                      inFraction,
-                      Math.min(fracDigits, MAX_FRACTION_DIGITS),
-                    );
-                    input.setSelectionRange(pos, pos);
-                  });
-                }}
-                className="w-full bg-transparent text-3xl font-semibold tabular-nums text-zender-navy outline-none placeholder:text-zender-navy/35 sm:text-4xl"
-              />
-            </div>
+            <input
+              id="hero-amount"
+              inputMode="decimal"
+              autoComplete="off"
+              value={amountText}
+              placeholder="0"
+              onChange={(event) => {
+                const input = event.target;
+                const cursor = input.selectionStart ?? input.value.length;
+                const before = input.value.slice(0, cursor);
+                const inFraction = before.includes(".");
+                const intDigits = countDigits(before.split(".")[0] ?? "");
+                const fracDigits = inFraction
+                  ? countDigits(before.split(".")[1] ?? "")
+                  : 0;
+                const next = formatGroupedAmount(input.value);
+                setAmountText(next);
+                requestAnimationFrame(() => {
+                  const pos = restoreCaret(
+                    next,
+                    Math.min(intDigits, MAX_INTEGER_DIGITS),
+                    inFraction,
+                    Math.min(fracDigits, MAX_FRACTION_DIGITS),
+                  );
+                  input.setSelectionRange(pos, pos);
+                });
+              }}
+              className="mt-1 w-full min-w-0 bg-transparent text-3xl font-semibold tabular-nums text-white outline-none placeholder:text-white/70 sm:text-4xl"
+            />
           </div>
           <div
             role="radiogroup"
