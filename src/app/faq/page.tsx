@@ -10,22 +10,17 @@ export default function FaqPage() {
       <SiteHeader />
       <main className="overflow-hidden">
         <RichPageHero
-          eyebrow="FAQ"
           title="Clear answers, no noise"
           description="Straightforward information about how Zender works, who we serve, and how to get started."
-          pills={["Measured", "Compliant", "Transparent"]}
         />
-        <section className="bg-white px-6 py-20 lg:px-8">
-          <div className="mx-auto max-w-3xl space-y-4">
+        <section className="section bg-white">
+          <div className="mx-auto max-w-3xl divide-y divide-zender-navy/10 border-y border-zender-navy/10">
             {FAQ_ITEMS.map((item) => (
-              <details
-                key={item.question}
-                className="glass-card group rounded-2xl p-6 open:border-zender-teal/30"
-              >
+              <details key={item.question} className="group py-6">
                 <summary className="cursor-pointer list-none text-base font-semibold text-zender-navy marker:content-none">
                   {item.question}
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-zender-navy/65">
+                <p className="mt-4 text-sm leading-relaxed text-zender-navy/70">
                   {item.answer}
                 </p>
               </details>

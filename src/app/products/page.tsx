@@ -2,9 +2,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
 import { PlatformSnapshot } from "@/components/products/PlatformSnapshot";
 import { ProductShowcase } from "@/components/products/ProductShowcase";
-import { ProductsCta } from "@/components/products/ProductsCta";
-import { ProductsHero, ProductsTrustStrip } from "@/components/products/ProductsHero";
+import { ProductsHero } from "@/components/products/ProductsHero";
 import { ProductsWorkflow } from "@/components/products/ProductsWorkflow";
+import { RichCta } from "@/components/ui/RichCta";
 
 export default function ProductsPage() {
   return (
@@ -12,13 +12,12 @@ export default function ProductsPage() {
       <SiteHeader />
       <main className="overflow-hidden">
         <ProductsHero />
-        <ProductsTrustStrip />
         <ProductShowcase />
         <PlatformSnapshot />
         <ProductsWorkflow />
-        <ProductsCta
+        <RichCta
           title="Start a conversation, or onboard when ready"
-          description="Contact our treasury desk to discuss your needs, or access our web onboarding platform to get started, relationship-led, no mobile app."
+          description="Contact our treasury desk to discuss your needs, or access our web onboarding platform to get started. Relationship-led, no mobile app."
         />
       </main>
       <Footer />
