@@ -1,19 +1,14 @@
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero, HeroBackground } from "@/components/Hero";
 import { Footer } from "@/components/Footer";
-import { AboutTeaser } from "@/components/sections/AboutTeaser";
 import {
-  HomeCurrencyCoverage,
   HomeFaqPreview,
   HomeIntro,
-  HomePlatformPreview,
   HomeServices,
   HomeStats,
-  HomeTreasuryBand,
   HomeTradeBand,
   HomeWhoWeServe,
 } from "@/components/home/HomeSections";
-import { HomeHowItWorksScroll } from "@/components/home/HomeHowItWorksScroll";
 import { RichCta } from "@/components/ui/RichCta";
 import { getFxRates } from "@/lib/fx-rates";
 
@@ -36,15 +31,10 @@ export default async function Home() {
       <HomeWhoWeServe />
       <HomeTradeBand />
       <HomeServices />
-      <HomePlatformPreview />
-      <HomeCurrencyCoverage />
-      <HomeHowItWorksScroll />
       <HomeFaqPreview />
-      <AboutTeaser />
-      <HomeTreasuryBand />
       <RichCta
-        title="Ready to move money the Zender way?"
-        description="Start with a conversation at our treasury desk, or onboard through our web platform when you're ready, no mobile app required."
+        title="Prefer a conversation first?"
+        description="Our desk handles payments, FX, treasury, lending enquiries, and partnership conversations. Start there, or onboard through our web platform when you are ready. There is no mobile app."
       />
       <Footer />
     </>
