@@ -13,6 +13,9 @@ import type { FxRatesData } from "@/lib/fx-rates";
 import { formatUpdatedAt } from "@/lib/rate-stamp";
 
 const CURRENCIES = ["USD", "GBP", "EUR", "NGN"] as const;
+/** Keeps formatted amounts like 999,999,999.99 from overflowing the hero panel. */
+const MAX_INTEGER_DIGITS = 9;
+const MAX_FRACTION_DIGITS = 2;
 
 type HeroRateTabletProps = {
   data: FxRatesData;
@@ -57,35 +60,37 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
             >
               Amount
             </label>
-            <input
-              id="hero-amount"
-              inputMode="decimal"
-              autoComplete="off"
-              value={amountText}
-              placeholder="0"
-              onChange={(event) => {
-                const input = event.target;
-                const cursor = input.selectionStart ?? input.value.length;
-                const before = input.value.slice(0, cursor);
-                const inFraction = before.includes(".");
-                const intDigits = countDigits(before.split(".")[0] ?? "");
-                const fracDigits = inFraction
-                  ? countDigits(before.split(".")[1] ?? "")
-                  : 0;
-                const next = formatGroupedAmount(input.value);
-                setAmountText(next);
-                requestAnimationFrame(() => {
-                  const pos = restoreCaret(
-                    next,
-                    intDigits,
-                    inFraction,
-                    fracDigits,
-                  );
-                  input.setSelectionRange(pos, pos);
-                });
-              }}
-              className="mt-1 w-full bg-transparent text-3xl font-semibold tabular-nums text-white outline-none placeholder:text-white/70 sm:text-4xl"
-            />
+            <div className="mt-2 rounded-lg border border-white/40 bg-white px-4 py-3 shadow-sm transition focus-within:border-zender-teal focus-within:ring-2 focus-within:ring-zender-teal/40">
+              <input
+                id="hero-amount"
+                inputMode="decimal"
+                autoComplete="off"
+                value={amountText}
+                placeholder="1,000"
+                onChange={(event) => {
+                  const input = event.target;
+                  const cursor = input.selectionStart ?? input.value.length;
+                  const before = input.value.slice(0, cursor);
+                  const inFraction = before.includes(".");
+                  const intDigits = countDigits(before.split(".")[0] ?? "");
+                  const fracDigits = inFraction
+                    ? countDigits(before.split(".")[1] ?? "")
+                    : 0;
+                  const next = formatGroupedAmount(input.value);
+                  setAmountText(next);
+                  requestAnimationFrame(() => {
+                    const pos = restoreCaret(
+                      next,
+                      Math.min(intDigits, MAX_INTEGER_DIGITS),
+                      inFraction,
+                      Math.min(fracDigits, MAX_FRACTION_DIGITS),
+                    );
+                    input.setSelectionRange(pos, pos);
+                  });
+                }}
+                className="w-full bg-transparent text-3xl font-semibold tabular-nums text-zender-navy outline-none placeholder:text-zender-navy/35 sm:text-4xl"
+              />
+            </div>
           </div>
           <div
             role="radiogroup"
@@ -193,12 +198,20 @@ function enquiryHref(
 function formatGroupedAmount(value: string): string {
   const cleaned = value.replace(/[^\d.]/g, "");
   const dot = cleaned.indexOf(".");
-  const intRaw = (dot === -1 ? cleaned : cleaned.slice(0, dot)).replace(
+  let intRaw = (dot === -1 ? cleaned : cleaned.slice(0, dot)).replace(
     /^0+(?=\d)/,
     "",
   );
-  const fracRaw =
+  let fracRaw =
     dot === -1 ? null : cleaned.slice(dot + 1).replace(/\./g, "");
+
+  if (intRaw.length > MAX_INTEGER_DIGITS) {
+    intRaw = intRaw.slice(0, MAX_INTEGER_DIGITS);
+  }
+  if (fracRaw !== null && fracRaw.length > MAX_FRACTION_DIGITS) {
+    fracRaw = fracRaw.slice(0, MAX_FRACTION_DIGITS);
+  }
+
   const grouped = intRaw.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   if (fracRaw === null) return grouped;
