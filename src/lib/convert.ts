@@ -32,6 +32,41 @@ export function convertAmount(
   return (amount * fromNgnPerUnit) / toNgnPerUnit;
 }
 
+export type EquivalentRow = {
+  code: string;
+  name: string;
+  value: number | null;
+};
+
+/**
+ * Other currencies for one amount. Naira is the first row unless the amount
+ * is already in naira, in which case the desk currencies stay in snapshot order.
+ */
+export function equivalentRows(
+  amount: number,
+  fromCode: string,
+  currencies: QuoteCurrency[],
+): EquivalentRow[] {
+  const from = currencies.find((currency) => currency.code === fromCode);
+  if (!from) return [];
+
+  const ordered =
+    fromCode === "NGN"
+      ? currencies.filter((currency) => currency.code !== "NGN")
+      : [
+          ...currencies.filter((currency) => currency.code === "NGN"),
+          ...currencies.filter(
+            (currency) => currency.code !== "NGN" && currency.code !== fromCode,
+          ),
+        ];
+
+  return ordered.map((currency) => ({
+    code: currency.code,
+    name: currency.name,
+    value: convertAmount(amount, from.ngnPerUnit, currency.ngnPerUnit),
+  }));
+}
+
 export function formatMoney(amount: number, currency: string): string {
   const abs = Math.abs(amount);
   const digits = abs > 0 && abs < 100 ? 4 : 2;

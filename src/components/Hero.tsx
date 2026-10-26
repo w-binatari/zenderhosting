@@ -1,6 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
-import { FxRatesCard } from "@/components/FxRatesCard";
+import { HeroRateTablet } from "@/components/HeroRateTablet";
 import type { FxRatesData } from "@/lib/fx-rates";
 import { PHOTOS } from "@/lib/photos";
 import { HERO_HEADLINE, HERO_SUBCOPY } from "@/lib/site";
@@ -23,22 +22,7 @@ export function Hero({ fxRates }: HeroProps) {
         {HERO_SUBCOPY}
       </p>
 
-      <FxRatesCard data={fxRates} />
-
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-        <Link
-          href="/contact"
-          className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-zender-mint px-8 py-3.5 text-[15px] font-semibold text-zender-navy transition hover:bg-white"
-        >
-          Contact Treasury Desk
-        </Link>
-        <Link
-          href="/fx-rates#convert"
-          className="inline-flex min-w-[180px] items-center justify-center rounded-full border border-white/60 bg-transparent px-8 py-3.5 text-[15px] font-semibold text-white transition hover:border-white hover:bg-white/10"
-        >
-          Convert an amount
-        </Link>
-      </div>
+      <HeroRateTablet data={fxRates} />
     </section>
   );
 }

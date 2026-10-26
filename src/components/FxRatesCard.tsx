@@ -1,5 +1,6 @@
 import { CurrencyFlag } from "@/components/ui/CurrencyFlag";
-import { formatNgnRate, formatUpdatedAt, type FxRatesData } from "@/lib/fx-rates";
+import { formatNgnRate, type FxRatesData } from "@/lib/fx-rates";
+import { formatUpdatedAt } from "@/lib/rate-stamp";
 
 type FxRatesCardProps = {
   data: FxRatesData;
