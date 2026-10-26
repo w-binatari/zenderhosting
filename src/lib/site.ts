@@ -218,7 +218,7 @@ export const TEAM_MEMBERS = [
     image: null as string | null,
   },
   {
-    name: "Ayomikun",
+    name: "Bax",
     role: "Operations Manager",
     bio: "Coordinates settlement communication and operational follow-through so transfers stay clear from start to finish.",
     image: null as string | null,
