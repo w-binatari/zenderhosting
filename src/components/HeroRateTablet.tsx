@@ -27,7 +27,7 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
     currencies.some((currency) => currency.code === code),
   );
   const from = available.includes(fromCode) ? fromCode : available[0];
-  const amount = amountText === "" ? Number.NaN : Number(amountText);
+  const amount = parseGroupedAmount(amountText);
   const rows = from ? equivalentRows(amount, from, currencies) : [];
   const customised = amountText !== "1" || from !== "USD";
   const deskHref =
@@ -63,9 +63,27 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
               autoComplete="off"
               value={amountText}
               placeholder="0"
-              onChange={(event) =>
-                setAmountText(event.target.value.replace(/[^\d.]/g, ""))
-              }
+              onChange={(event) => {
+                const input = event.target;
+                const cursor = input.selectionStart ?? input.value.length;
+                const before = input.value.slice(0, cursor);
+                const inFraction = before.includes(".");
+                const intDigits = countDigits(before.split(".")[0] ?? "");
+                const fracDigits = inFraction
+                  ? countDigits(before.split(".")[1] ?? "")
+                  : 0;
+                const next = formatGroupedAmount(input.value);
+                setAmountText(next);
+                requestAnimationFrame(() => {
+                  const pos = restoreCaret(
+                    next,
+                    intDigits,
+                    inFraction,
+                    fracDigits,
+                  );
+                  input.setSelectionRange(pos, pos);
+                });
+              }}
               className="mt-1 w-full bg-transparent text-3xl font-semibold tabular-nums text-white outline-none placeholder:text-white/70 sm:text-4xl"
             />
           </div>
@@ -169,4 +187,61 @@ function enquiryHref(
     note,
   });
   return `/contact?${params.toString()}#enquiry`;
+}
+
+/** Keep digits and at most one decimal point, then group the integer with commas. */
+function formatGroupedAmount(value: string): string {
+  const cleaned = value.replace(/[^\d.]/g, "");
+  const dot = cleaned.indexOf(".");
+  const intRaw = (dot === -1 ? cleaned : cleaned.slice(0, dot)).replace(
+    /^0+(?=\d)/,
+    "",
+  );
+  const fracRaw =
+    dot === -1 ? null : cleaned.slice(dot + 1).replace(/\./g, "");
+  const grouped = intRaw.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  if (fracRaw === null) return grouped;
+  return `${grouped || "0"}.${fracRaw}`;
+}
+
+function parseGroupedAmount(value: string): number {
+  if (value === "" || value === ".") return Number.NaN;
+  return Number(value.replace(/,/g, ""));
+}
+
+function countDigits(value: string): number {
+  return (value.match(/\d/g) ?? []).length;
+}
+
+function restoreCaret(
+  value: string,
+  intDigits: number,
+  inFraction: boolean,
+  fracDigits: number,
+): number {
+  const dot = value.indexOf(".");
+  if (!inFraction || dot === -1) {
+    if (intDigits <= 0) return 0;
+    let seen = 0;
+    const intPart = dot === -1 ? value : value.slice(0, dot);
+    for (let i = 0; i < intPart.length; i += 1) {
+      if (/\d/.test(intPart[i]!)) {
+        seen += 1;
+        if (seen === intDigits) return i + 1;
+      }
+    }
+    return intPart.length;
+  }
+
+  if (fracDigits <= 0) return dot + 1;
+
+  let seen = 0;
+  for (let i = dot + 1; i < value.length; i += 1) {
+    if (/\d/.test(value[i]!)) {
+      seen += 1;
+      if (seen === fracDigits) return i + 1;
+    }
+  }
+  return value.length;
 }
