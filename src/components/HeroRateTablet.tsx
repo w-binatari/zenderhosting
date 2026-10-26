@@ -46,14 +46,14 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
   return (
     <>
       <div
-        className="glass-panel mt-10 flex w-full max-w-3xl flex-col justify-center rounded-[2rem] px-6 py-7 sm:px-8 sm:py-8"
+        className="glass-panel mt-10 flex w-full max-w-3xl flex-col justify-center rounded-lg px-6 py-7 sm:px-8 sm:py-8"
         aria-label="Convert an amount against indicative rates"
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 flex-1 text-left">
             <label
               htmlFor="hero-amount"
-              className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/50"
+              className="text-sm font-medium text-white/70"
             >
               Amount
             </label>
@@ -66,13 +66,13 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
               onChange={(event) =>
                 setAmountText(event.target.value.replace(/[^\d.]/g, ""))
               }
-              className="mt-1 w-full bg-transparent text-3xl font-semibold tabular-nums text-white outline-none placeholder:text-white/30 sm:text-4xl"
+              className="mt-1 w-full bg-transparent text-3xl font-semibold tabular-nums text-white outline-none placeholder:text-white/70 sm:text-4xl"
             />
           </div>
           <div
             role="radiogroup"
             aria-label="Currency of the amount"
-            className="flex shrink-0 gap-1 self-start rounded-full bg-white/15 p-1 sm:self-auto"
+            className="flex shrink-0 gap-1 self-start rounded-lg bg-white/15 p-1 sm:self-auto"
           >
             {available.map((code) => {
               const selected = code === from;
@@ -83,7 +83,7 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
                   role="radio"
                   aria-checked={selected}
                   onClick={() => setFromCode(code)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                  className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
                     selected
                       ? "bg-white text-zender-navy"
                       : "text-white hover:bg-white/10"
@@ -104,10 +104,10 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
                 <div className="min-w-0 text-left">
                   <p className="text-sm font-semibold text-white">
                     {from}
-                    <span className="mx-1.5 text-white/35">→</span>
+                    <span className="mx-1.5 text-white/70">→</span>
                     {row.code}
                   </p>
-                  <p className="truncate text-xs text-white/55">{row.name}</p>
+                  <p className="truncate text-xs text-white/70">{row.name}</p>
                 </div>
               </div>
               <p className="shrink-0 text-right text-sm font-semibold tabular-nums text-white sm:text-base">
@@ -117,16 +117,13 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
           ))}
         </ul>
 
-        <p className="mt-5 text-center text-[10px] text-white/40">
+        <p className="mt-5 text-center text-[10px] text-white/70">
           {updatedLabel ? `${rateLine} · Updated ${updatedLabel}` : rateLine}
         </p>
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-        <Link
-          href={deskHref}
-          className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-zender-mint px-8 py-3.5 text-[15px] font-semibold text-zender-navy transition hover:bg-white"
-        >
+      <div className="on-dark mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <Link href={deskHref} className="btn btn-primary min-w-[200px]">
           Contact Treasury Desk
         </Link>
         <a
@@ -135,7 +132,7 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
             event.preventDefault();
             document.getElementById("hero-amount")?.focus();
           }}
-          className="inline-flex min-w-[180px] items-center justify-center rounded-full border border-white/60 bg-transparent px-8 py-3.5 text-[15px] font-semibold text-white transition hover:border-white hover:bg-white/10"
+          className="btn btn-secondary min-w-[180px]"
         >
           Convert an amount
         </a>

@@ -29,7 +29,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
           <div className="sm:col-span-2 lg:col-span-2">
-            <p className="max-w-sm text-sm leading-relaxed text-white/60">
+            <p className="max-w-sm text-sm leading-relaxed text-white/70">
               {BRAND_TAGLINE} A modern African cross-border finance and treasury
               partner built on responsiveness, execution, and trusted relationships.
             </p>
@@ -38,7 +38,7 @@ export function Footer() {
 
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-zender-teal">
+              <h3 className="text-sm font-semibold text-white">
                 {title}
               </h3>
               <ul className="mt-4 space-y-2.5">
@@ -49,14 +49,14 @@ export function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-white/65 transition hover:text-white"
+                        className="text-sm text-white/70 transition hover:text-white"
                       >
                         {link.label}
                       </a>
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-sm text-white/65 transition hover:text-white"
+                        className="text-sm text-white/70 transition hover:text-white"
                       >
                         {link.label}
                       </Link>
@@ -69,10 +69,10 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-xs text-white/45">
+          <p className="text-xs text-white/70">
             &copy; {new Date().getFullYear()} Zender Finance. All rights reserved.
           </p>
-          <p className="max-w-md text-center text-xs text-white/35 sm:text-right">
+          <p className="max-w-md text-center text-xs text-white/70 sm:text-right">
             Information on this website is provided for general reference. Final
             terms are confirmed through direct engagement with Zender.
           </p>

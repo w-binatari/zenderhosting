@@ -19,7 +19,7 @@ export function FramedPhoto({
   children,
 }: FramedPhotoProps) {
   return (
-    <div className={`relative overflow-hidden rounded-[1.75rem] ${className}`}>
+    <div className={`relative overflow-hidden rounded-lg ${className}`}>
       <Image
         src={photo.src}
         alt={photo.alt}

@@ -1,46 +1,24 @@
-type RichPageHeroProps = {
-  eyebrow: string;
+type PageHeroProps = {
   title: string;
   description: string;
-  pills?: string[];
   visual?: React.ReactNode;
 };
 
-export function RichPageHero({
-  eyebrow,
-  title,
-  description,
-  pills,
-  visual,
-}: RichPageHeroProps) {
+export function RichPageHero({ title, description, visual }: PageHeroProps) {
   return (
-    <section className="page-mesh relative overflow-hidden px-6 pb-20 pt-32 lg:px-8 lg:pb-28 lg:pt-36">
-      <div className="pointer-events-none absolute -right-24 top-20 h-72 w-72 rounded-full bg-zender-teal/20 blur-3xl" />
-      <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-zender-navy/10 blur-3xl" />
-
-      <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-2">
+    <section className="bg-zender-tint px-6 pb-16 pt-32 lg:px-8 lg:pb-20 lg:pt-36">
+      <div
+        className={`mx-auto grid items-center gap-12 ${
+          visual ? "max-w-6xl lg:grid-cols-2" : "max-w-3xl"
+        }`}
+      >
         <div>
-          <p className="nav-link text-zender-teal">{eyebrow}</p>
-          <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-tight text-zender-navy sm:text-5xl lg:text-[3.25rem]">
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-zender-navy sm:text-5xl">
             {title}
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-zender-navy/65">
-            {description}
-          </p>
-          {pills && pills.length > 0 ? (
-            <div className="mt-10 flex flex-wrap gap-3">
-              {pills.map((pill) => (
-                <span
-                  key={pill}
-                  className="glass-card rounded-full px-4 py-2 text-xs font-medium text-zender-navy/70"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          ) : null}
+          <p className="lede mt-6 max-w-xl text-lg">{description}</p>
         </div>
-        {visual ? <div className="relative">{visual}</div> : null}
+        {visual ? <div>{visual}</div> : null}
       </div>
     </section>
   );

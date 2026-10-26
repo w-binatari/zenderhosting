@@ -60,7 +60,7 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
         onClick={() => setOpen((current) => !current)}
         className={`nav-link px-1 py-2 transition ${
           light
-            ? "text-zender-navy/80 hover:text-zender-teal"
+            ? "text-zender-navy/70 hover:text-zender-teal"
             : "text-white/90 hover:text-white"
         }`}
       >
@@ -80,11 +80,9 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
             aria-label="Mobile navigation"
             className="relative h-full bg-white px-6 pt-24"
           >
-            <div className="pointer-events-none absolute inset-0 page-mesh opacity-80" />
-            <div className="pointer-events-none absolute inset-0 dot-grid opacity-60" />
             <div className="relative mx-auto max-w-6xl">
               <div className="flex items-center justify-between">
-                <p className="nav-link text-zender-teal">{navLabel("Menu")}</p>
+                <p className="nav-link text-zender-navy">{navLabel("Menu")}</p>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -94,7 +92,7 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
                 </button>
               </div>
 
-              <div className="mt-10 space-y-2">
+              <div className="mt-8 divide-y divide-zender-navy/10 border-y border-zender-navy/10">
                 {navLinks.map((link) => {
                   const active = pathname === link.href;
                   return (
@@ -102,28 +100,22 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
                       key={link.label}
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className={`flex items-center justify-between rounded-2xl border px-5 py-4 transition ${
-                        active
-                          ? "border-zender-teal/25 bg-zender-mint/60 text-zender-navy"
-                          : "border-zender-navy/10 bg-white/70 text-zender-navy/80 hover:border-zender-teal/30 hover:bg-zender-mint/40"
+                      className={`flex items-center justify-between py-4 transition ${
+                        active ? "text-zender-teal" : "text-zender-navy hover:text-zender-teal"
                       }`}
                     >
                       <span className="nav-link">{navLabel(link.label)}</span>
-                      <span className="text-sm text-zender-navy/35">→</span>
+                      <span className="text-sm text-zender-navy/70">→</span>
                     </Link>
                   );
                 })}
               </div>
 
-              <div className="mt-10 rounded-2xl border border-zender-navy/10 bg-white/80 p-6 backdrop-blur">
-                <p className="text-sm font-semibold text-zender-navy">Treasury Desk</p>
-                <p className="mt-2 text-sm text-zender-navy/60">
-                  Start a conversation about payments, FX, treasury, or partnerships.
-                </p>
+              <div className="mt-8">
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-zender-teal px-6 py-3 text-sm font-semibold text-white transition hover:bg-zender-navy"
+                  className="btn btn-primary w-full"
                 >
                   Contact Treasury Desk
                 </Link>
