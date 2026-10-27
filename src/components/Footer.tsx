@@ -69,9 +69,18 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-xs text-white/70">
-            &copy; {new Date().getFullYear()} Zender Finance. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <p className="text-xs text-white/70">
+              &copy; {new Date().getFullYear()} Zender Finance. All rights
+              reserved.
+            </p>
+            <Link
+              href="/cookies"
+              className="text-xs text-white/70 transition hover:text-white"
+            >
+              Cookie Policy
+            </Link>
+          </div>
           <p className="max-w-md text-center text-xs text-white/70 sm:text-right">
             Information on this website is provided for general reference. Final
             terms are confirmed through direct engagement with Zender.
