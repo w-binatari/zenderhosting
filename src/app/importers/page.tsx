@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { ImportersPageContent } from "@/components/importers/ImportersPageContent";
 
 export const metadata: Metadata = {
-  title: "Supplier payments for importers | Zender Finance",
+  title: "Supplier payments for importers",
   description:
     "For Nigerian importers paying overseas suppliers. Send the invoice amount, currency corridor, and the date the supplier needs the funds.",
 };
