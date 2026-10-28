@@ -7,6 +7,9 @@ import {
 import { RichCta } from "@/components/ui/RichCta";
 import { getFxRates } from "@/lib/fx-rates";
 
+/** Re-read desk and market rates hourly instead of freezing them at build time. */
+export const revalidate = 3600;
+
 export default async function FxRatesPage() {
   const fxRates = await getFxRates();
 

@@ -10,7 +10,6 @@ import {
   quoteCurrencies,
 } from "@/lib/convert";
 import type { FxRatesData } from "@/lib/fx-rates";
-import { formatUpdatedAt } from "@/lib/rate-stamp";
 
 const CURRENCIES = ["USD", "GBP", "EUR", "NGN"] as const;
 /** Caps at hundreds of billions (999,999,999,999.99) so the hero layout stays intact. */
@@ -38,7 +37,6 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
       ? enquiryHref(amountText, amount, from, rows)
       : "/contact";
 
-  const updatedLabel = formatUpdatedAt(data.updatedAt);
   const rateLine =
     data.source === "market"
       ? "Indicative market references"
@@ -139,7 +137,7 @@ export function HeroRateTablet({ data }: HeroRateTabletProps) {
         </ul>
 
         <p className="mt-5 text-center text-[10px] text-white/70">
-          {updatedLabel ? `${rateLine} · Updated ${updatedLabel}` : rateLine}
+          {rateLine}
         </p>
       </div>
 

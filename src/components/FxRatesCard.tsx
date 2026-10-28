@@ -1,6 +1,5 @@
 import { CurrencyFlag } from "@/components/ui/CurrencyFlag";
 import { formatNgnRate, type FxRatesData } from "@/lib/fx-rates";
-import { formatUpdatedAt } from "@/lib/rate-stamp";
 
 type FxRatesCardProps = {
   data: FxRatesData;
@@ -8,8 +7,6 @@ type FxRatesCardProps = {
 };
 
 export function FxRatesCard({ data, className = "" }: FxRatesCardProps) {
-  const updatedLabel = formatUpdatedAt(data.updatedAt);
-
   return (
     <div
       className={`glass-panel flex w-full max-w-3xl flex-col justify-center rounded-lg px-6 py-7 sm:aspect-[5/2] sm:min-h-[280px] sm:px-8 sm:py-8 lg:min-h-[320px] ${className || "mt-10"}`}
@@ -40,9 +37,7 @@ export function FxRatesCard({ data, className = "" }: FxRatesCardProps) {
       </ul>
 
       <p className="mt-5 text-center text-[10px] text-white/70">
-        {updatedLabel
-          ? `Indicative desk rates · Updated ${updatedLabel}`
-          : "Indicative desk rates"}
+        Indicative desk rates
       </p>
     </div>
   );

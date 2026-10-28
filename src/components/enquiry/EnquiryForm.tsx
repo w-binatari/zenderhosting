@@ -11,6 +11,24 @@ import { CONTACT_EMAIL, whatsAppHref } from "@/lib/site";
 
 const fieldClass = "field";
 
+const FALLBACK_MESSAGE =
+  "The desk could not log this automatically. Send it straight to the desk below, your details are already filled in.";
+
+/** Plain-text copy of the enquiry for the WhatsApp and email fallbacks. */
+function enquirySummary(data: FormData): string {
+  const value = (key: string) => String(data.get(key) ?? "").trim();
+  const lines = [
+    "Hello Zender desk. Website enquiry:",
+    `Name: ${value("name")}`,
+    `Email: ${value("email")}`,
+    `Amount: ${value("amount")} ${value("currency")}`,
+    `Corridor: ${value("corridor")}`,
+    `Timeline: ${value("timeline")}`,
+  ];
+  if (value("note")) lines.push(`Note: ${value("note")}`);
+  return lines.join("\n");
+}
+
 type EnquiryDefaults = {
   amount?: string;
   currency?: string;
@@ -44,6 +62,7 @@ export function EnquiryForm({
   const noteDefault = defaults?.note?.slice(0, 1000) || undefined;
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [fallbackText, setFallbackText] = useState("");
   const whatsApp = whatsAppHref(
     "Hello Zender desk. I would like to discuss a supplier or cross-border payment.",
   );
@@ -52,6 +71,7 @@ export function EnquiryForm({
     event.preventDefault();
     setStatus("sending");
     setMessage("");
+    setFallbackText("");
 
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -66,6 +86,7 @@ export function EnquiryForm({
       segment,
       companyWebsite: data.get("companyWebsite"),
     };
+    const summary = enquirySummary(data);
 
     try {
       const response = await fetch("/api/enquiries", {
@@ -76,10 +97,12 @@ export function EnquiryForm({
       const result = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) {
         setStatus("error");
-        setMessage(
-          result?.error ??
-            `The desk could not record this. Email ${CONTACT_EMAIL} with the amount, corridor, and timeline.`,
-        );
+        if (response.status === 400 && result?.error) {
+          setMessage(result.error);
+          return;
+        }
+        setMessage(FALLBACK_MESSAGE);
+        setFallbackText(summary);
         return;
       }
       setStatus("sent");
@@ -87,9 +110,8 @@ export function EnquiryForm({
       form.reset();
     } catch {
       setStatus("error");
-      setMessage(
-        `The desk could not record this. Email ${CONTACT_EMAIL} with the amount, corridor, and timeline.`,
-      );
+      setMessage(FALLBACK_MESSAGE);
+      setFallbackText(summary);
     }
   }
 
@@ -181,7 +203,27 @@ export function EnquiryForm({
           </p>
         ) : null}
 
-        {whatsApp ? (
+        {fallbackText ? (
+          <div className="flex flex-col gap-2 sm:flex-row">
+            {whatsAppHref(fallbackText) ? (
+              <a
+                href={whatsAppHref(fallbackText)!}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary flex-1 gap-2"
+              >
+                <WhatsAppIcon />
+                Send on WhatsApp
+              </a>
+            ) : null}
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(fallbackText)}`}
+              className="btn btn-secondary flex-1"
+            >
+              Send by email
+            </a>
+          </div>
+        ) : whatsApp ? (
           <a
             href={whatsApp}
             target="_blank"

@@ -13,7 +13,8 @@ export const HERO_HEADLINE =
 export const HERO_SUBCOPY =
   "We help African businesses and individuals move money across borders with clearer communication, responsive handling, and execution built around long-term trust, not transactional noise.";
 
-export const ONBOARDING_URL = "https://app.zenderfinance.com/login";
+/** Swap to app.zenderfinance.com once that domain is attached to the zender-portal project. */
+export const ONBOARDING_URL = "https://zender-portal-alpha.vercel.app/login";
 
 /** Public desk line. Digits only, no plus. Env overrides the published number. */
 const PUBLISHED_WHATSAPP_E164 = "2349035573575";
@@ -207,8 +208,8 @@ export const ABOUT_STORY = {
 export const TEAM_MEMBERS = [
   {
     name: "Nwogo Onyejepu",
-    role: "Founder",
-    bio: "Leads Zender’s cross-border vision, building a treasury partner rooted in trust, execution, and African market understanding.",
+    role: "Chief Experience Officer",
+    bio: "Shapes how clients experience Zender, building a treasury partner rooted in trust, execution, and African market understanding.",
     image: null as string | null,
   },
   {
@@ -218,9 +219,9 @@ export const TEAM_MEMBERS = [
     image: null as string | null,
   },
   {
-    name: "Bax",
-    role: "Operations Manager",
-    bio: "Coordinates settlement communication and operational follow-through so transfers stay clear from start to finish.",
+    name: "Binatari Wariowei",
+    role: "Product & Tech Lead",
+    bio: "Leads Zender’s product and technology, building the platform and tools that keep every transfer clear from start to finish.",
     image: null as string | null,
   },
   {

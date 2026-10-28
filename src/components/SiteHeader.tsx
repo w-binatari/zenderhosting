@@ -106,7 +106,7 @@ export function SiteHeader() {
           </div>
           <Link
             href="/contact"
-            className={`nav-link hidden items-center justify-center rounded-lg px-5 py-2.5 transition sm:inline-flex ${
+            className={`nav-link hidden items-center justify-center whitespace-nowrap rounded-lg px-5 py-2.5 transition sm:inline-flex ${
               light
                 ? "bg-zender-teal text-white hover:bg-zender-navy"
                 : "bg-white/15 text-white hover:bg-white/25"

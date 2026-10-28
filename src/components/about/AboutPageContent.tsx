@@ -56,7 +56,7 @@ export function AboutStory() {
 
       <section className="section bg-zender-tint">
         <div className="mx-auto max-w-6xl">
-          <h2 className="section-h2 max-w-2xl text-zender-navy">
+          <h2 className="section-h2 text-zender-navy lg:whitespace-nowrap">
             Calm, structured, and relationship-focused
           </h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">

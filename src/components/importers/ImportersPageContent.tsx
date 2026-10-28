@@ -60,8 +60,9 @@ export function ImportersPageContent() {
               The invoice is in their currency. Your account is in naira.
             </h2>
             <p className="lede">
-              A factory in Ningbo, a wholesaler in Hamburg, or an agent in Dubai
-              has sent a bill. The shipment moves when they see the funds. The
+              You trade from Alaba, Trade Fair, or Idumota, and a factory in
+              China, a wholesaler in Hamburg, or an agent in Dubai has sent a
+              bill. The shipment moves when they see the funds. The
               useful question is not a slogan about trust. It is whether the
               desk can talk through this invoice, at what indicative level, and
               whether that fits the supplier&apos;s date.

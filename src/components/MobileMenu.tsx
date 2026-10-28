@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import { navLabel, navLinks } from "@/lib/nav";
 
 type MobileMenuProps = {
@@ -12,17 +13,10 @@ type MobileMenuProps = {
 export function MobileMenu({ light = false }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
-  const rootRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     if (!open) return;
-
-    function handlePointerDown(event: MouseEvent) {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -30,11 +24,9 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
       }
     }
 
-    document.addEventListener("mousedown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
@@ -51,7 +43,7 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
   }, [pathname]);
 
   return (
-    <div ref={rootRef} className="relative lg:hidden">
+    <div className="relative lg:hidden">
       <button
         type="button"
         aria-label={open ? "Close menu" : "Open menu"}
@@ -67,8 +59,9 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
         {open ? navLabel("Close") : navLabel("Menu")}
       </button>
 
-      {open ? (
-        <div className="fixed inset-0 z-50">
+      {/* Portal: the header's backdrop-filter would otherwise clip this fixed overlay to the header box. */}
+      {open ? createPortal(
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <button
             type="button"
             aria-label="Close menu"
@@ -122,7 +115,8 @@ export function MobileMenu({ light = false }: MobileMenuProps) {
               </div>
             </div>
           </nav>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </div>
   );

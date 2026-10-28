@@ -17,8 +17,14 @@ export default function FaqPage() {
           <div className="mx-auto max-w-3xl divide-y divide-zender-navy/10 border-y border-zender-navy/10">
             {FAQ_ITEMS.map((item) => (
               <details key={item.question} className="group py-6">
-                <summary className="cursor-pointer list-none text-base font-semibold text-zender-navy marker:content-none">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-zender-navy marker:content-none [&::-webkit-details-marker]:hidden">
                   {item.question}
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 text-xl leading-none text-zender-teal transition group-open:rotate-45"
+                  >
+                    +
+                  </span>
                 </summary>
                 <p className="mt-4 text-sm leading-relaxed text-zender-navy/70">
                   {item.answer}

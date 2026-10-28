@@ -39,7 +39,7 @@ export function CookieConsent() {
       aria-label="Cookie consent"
       className="fixed inset-x-0 bottom-0 z-50 border-t border-zender-navy/10 bg-white p-4 shadow-[0_-8px_30px_rgba(3,28,102,0.12)] sm:p-5"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <p className="text-sm leading-relaxed text-zender-navy/75">
           We use cookies to make this site work and to remember your preferences.
           Necessary cookies are always on. See our{" "}
@@ -48,7 +48,7 @@ export function CookieConsent() {
           </Link>{" "}
           for details.
         </p>
-        <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="grid shrink-0 grid-cols-2 gap-2 sm:flex sm:items-center">
           <button
             type="button"
             onClick={() => save("necessary")}
