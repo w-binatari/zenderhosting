@@ -9,44 +9,34 @@ import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 const SECTIONS = [
   {
     title: "What are cookies?",
-    body: "Cookies are small text files stored on your device when you visit a website. They help the site remember information about your visit, such as your preferences or whether you have accepted cookies before.",
+    body: "Cookies are small text files a website stores on your device. Sites also use similar browser storage, such as local storage, to remember things between visits.",
   },
   {
-    title: "How we use cookies",
-    body: "Zender Finance uses cookies only where they are needed for the website to function properly and to remember your cookie preferences. We do not use advertising or third-party marketing cookies on this site. We measure page visits with Vercel Web Analytics, which does not use cookies or collect personal identifiers.",
+    title: "What this website stores",
+    body: "The Zender Finance website does not set tracking, advertising, or third-party marketing cookies. The only thing it stores on your device is a small note in your browser's local storage that you have seen our cookie notice, so it is not shown on every visit. It contains no personal information.",
   },
   {
-    title: "Types of cookies we use",
-    body: null,
-    list: [
-      {
-        label: "Necessary cookies",
-        text: "Required for the site to work. This includes storing your cookie consent choice so we do not show the banner on every visit.",
-      },
-      {
-        label: "Preference cookies",
-        text: "Remember choices you make on the site (for example, country selection where available) so you do not have to set them again.",
-      },
-    ],
+    title: "Visitor statistics",
+    body: "We count page visits with Vercel Web Analytics, which does not use cookies and does not collect personal identifiers. It tells us which pages are read, not who read them.",
   },
   {
-    title: "Managing cookies",
-    body: "You can accept all cookies or choose necessary cookies only using the banner on this website. You can also clear or block cookies in your browser settings. If you block necessary cookies, some parts of the site may not work as expected.",
+    title: "Other services we link to",
+    body: "If you follow a link to WhatsApp, LinkedIn, X, Instagram, or our onboarding platform, those services may set their own cookies under their own policies.",
   },
   {
-    title: "How long cookies last",
-    body: "Consent and preference cookies are stored on your device until they expire, you clear them, or you change your choice. Exact durations depend on your browser and settings.",
+    title: "Managing storage",
+    body: "You can clear cookies and site data at any time in your browser settings. Clearing it simply means the cookie notice appears again on your next visit.",
   },
   {
     title: "Updates",
-    body: "We may update this Cookie Policy from time to time. The version on this page is the current one.",
+    body: "If we add any cookie that is not strictly necessary, we will update this policy and ask for your consent before setting it. The version on this page is the current one.",
   },
 ] as const;
 
 export const metadata = pageMetadata({
   title: "Cookie Policy",
   description:
-    "How the Zender Finance website uses cookies and similar storage, and how to manage your preferences.",
+    "The Zender Finance website sets no tracking or advertising cookies. Here is what it does store and how to clear it.",
   path: "/cookies",
 });
 
@@ -58,7 +48,7 @@ export default function CookiesPage() {
       <main className="overflow-hidden">
         <RichPageHero
           title="Cookie Policy"
-          description="A short explanation of the cookies used on the Zender Finance website and how you can manage them."
+          description="What the Zender Finance website stores on your device, and how to clear it."
         />
         <section className="section bg-white">
           <div className="mx-auto max-w-3xl space-y-10">
@@ -67,25 +57,9 @@ export default function CookiesPage() {
                 <h2 className="text-xl font-semibold text-zender-navy">
                   {section.title}
                 </h2>
-                {section.body ? (
-                  <p className="mt-3 text-sm leading-relaxed text-zender-navy/70">
-                    {section.body}
-                  </p>
-                ) : null}
-                {"list" in section && section.list ? (
-                  <ul className="mt-4 divide-y divide-zender-navy/10 border-y border-zender-navy/10">
-                    {section.list.map((item) => (
-                      <li key={item.label} className="py-4">
-                        <p className="text-sm font-semibold text-zender-navy">
-                          {item.label}
-                        </p>
-                        <p className="mt-1.5 text-sm leading-relaxed text-zender-navy/70">
-                          {item.text}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                <p className="mt-3 text-sm leading-relaxed text-zender-navy/70">
+                  {section.body}
+                </p>
               </div>
             ))}
             <p className="text-sm leading-relaxed text-zender-navy/70">

@@ -5,15 +5,19 @@ import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "zender-cookie-consent";
 
-type ConsentValue = "accepted" | "necessary";
-
+/**
+ * A notice, not a consent gate: the site sets no tracking or marketing
+ * cookies, so there is nothing optional to switch off. If an analytics or ad
+ * script that uses cookies is ever added, replace this with a real opt-in that
+ * blocks the script until the visitor accepts.
+ */
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored !== "accepted" && stored !== "necessary") {
+      // Earlier versions stored "accepted" or "necessary"; any value means seen.
+      if (!window.localStorage.getItem(STORAGE_KEY)) {
         setVisible(true);
       }
     } catch {
@@ -21,11 +25,11 @@ export function CookieConsent() {
     }
   }, []);
 
-  function save(value: ConsentValue) {
+  function dismiss() {
     try {
-      window.localStorage.setItem(STORAGE_KEY, value);
+      window.localStorage.setItem(STORAGE_KEY, "seen");
     } catch {
-      // Ignore storage failures; still hide the banner for this session.
+      // Ignore storage failures; still hide the notice for this session.
     }
     setVisible(false);
   }
@@ -34,36 +38,24 @@ export function CookieConsent() {
 
   return (
     <div
-      role="dialog"
-      aria-live="polite"
-      aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-zender-navy/10 bg-white p-4 shadow-[0_-8px_30px_rgba(3,28,102,0.12)] sm:p-5"
+      role="region"
+      aria-label="Cookie notice"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-zender-navy/10 bg-white px-4 py-3 shadow-[0_-8px_30px_rgba(3,28,102,0.12)]"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-        <p className="text-sm leading-relaxed text-zender-navy/75">
-          We use cookies to make this site work and to remember your preferences.
-          Necessary cookies are always on. See our{" "}
-          <Link href="/cookies" className="text-link">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+        <p className="text-xs leading-relaxed text-zender-navy/75 sm:text-sm">
+          We don&apos;t use tracking or advertising cookies.{" "}
+          <Link href="/cookies" className="text-link whitespace-nowrap">
             Cookie Policy
-          </Link>{" "}
-          for details.
+          </Link>
         </p>
-        <div className="grid shrink-0 grid-cols-2 gap-2 sm:flex sm:items-center">
-          <button
-            type="button"
-            onClick={() => save("necessary")}
-            className="btn btn-secondary"
-          >
-            Necessary only
-          </button>
-          <button
-            type="button"
-            onClick={() => save("accepted")}
-            className="btn btn-primary"
-          >
-            Accept all
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={dismiss}
+          className="btn btn-primary shrink-0 px-4 py-2 text-sm"
+        >
+          OK
+        </button>
       </div>
     </div>
   );
