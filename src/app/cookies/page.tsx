@@ -3,6 +3,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 
 const SECTIONS = [
   {
@@ -11,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: "How we use cookies",
-    body: "Zender Finance uses cookies only where they are needed for the website to function properly and to remember your cookie preferences. We do not use advertising or third-party marketing cookies on this site.",
+    body: "Zender Finance uses cookies only where they are needed for the website to function properly and to remember your cookie preferences. We do not use advertising or third-party marketing cookies on this site. We measure page visits with Vercel Web Analytics, which does not use cookies or collect personal identifiers.",
   },
   {
     title: "Types of cookies we use",
@@ -41,9 +43,17 @@ const SECTIONS = [
   },
 ] as const;
 
+export const metadata = pageMetadata({
+  title: "Cookie Policy",
+  description:
+    "How the Zender Finance website uses cookies and similar storage, and how to manage your preferences.",
+  path: "/cookies",
+});
+
 export default function CookiesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Cookie Policy", path: "/cookies" }])} />
       <SiteHeader />
       <main className="overflow-hidden">
         <RichPageHero

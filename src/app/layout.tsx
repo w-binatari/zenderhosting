@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { DM_Sans, Oswald } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { CookieConsent } from "@/components/CookieConsent";
+import { JsonLd } from "@/components/JsonLd";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { organizationJsonLd, SITE_URL, websiteJsonLd } from "@/lib/seo";
 import { BRAND_DESCRIPTION, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
 import "./globals.css";
 
@@ -16,8 +19,6 @@ const oswald = Oswald({
   variable: "--font-oswald",
   weight: ["400", "500", "600"],
 });
-
-const SITE_URL = "https://www.zenderfinance.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -36,20 +37,18 @@ export const metadata: Metadata = {
     siteName: BRAND_NAME,
     title: `${BRAND_NAME} | ${BRAND_TAGLINE}`,
     description: BRAND_DESCRIPTION,
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1213,
-        height: 487,
-        alt: `${BRAND_NAME} logo`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${BRAND_NAME} | ${BRAND_TAGLINE}`,
     description: BRAND_DESCRIPTION,
-    images: ["/og-image.jpg"],
+  },
+  // Paste the codes from Google Search Console / Bing Webmaster into these Vercel env vars.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+      : undefined,
   },
 };
 
@@ -59,11 +58,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-NG">
       <body className={`${dmSans.variable} ${oswald.variable} font-sans antialiased`}>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}
         <WhatsAppButton />
         <CookieConsent />
+        <Analytics />
       </body>
     </html>
   );

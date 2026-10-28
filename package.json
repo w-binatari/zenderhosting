@@ -10,8 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.6.1",
     "@vercel/connect": "^2.5.5",
+    "marked": "^18.1.2",
     "next": "^15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

@@ -2,6 +2,8 @@ import { FxRatesCard } from "@/components/FxRatesCard";
 import { CurrencyConverter } from "@/components/fx-rates/CurrencyConverter";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { CurrencyRegionGrid } from "@/components/ui/CurrencyFlag";
+import { RelatedLinks } from "@/components/seo/RelatedLinks";
+import { RATE_PAIRS } from "@/content/rate-pairs";
 import { quoteCurrencies } from "@/lib/convert";
 import type { FxRatesData } from "@/lib/fx-rates";
 
@@ -42,6 +44,13 @@ export function FxRatesContent({ data }: { data: FxRatesData }) {
             Indicative rates only. Zender does not guarantee execution at displayed
             levels. Contact the treasury desk for confirmed pricing.
           </p>
+          <RelatedLinks
+            heading="Rate pages"
+            links={RATE_PAIRS.map((pair) => ({
+              label: `${pair.everyday} to naira (${pair.code}/NGN)`,
+              href: `/rates/${pair.slug}`,
+            }))}
+          />
         </div>
       </section>
 

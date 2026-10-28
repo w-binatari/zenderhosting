@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
+import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { PHOTOS } from "@/lib/photos";
@@ -126,6 +127,14 @@ export function ImportersPageContent() {
                 </li>
               ))}
             </ul>
+            <RelatedLinks
+              heading="Guides by destination"
+              links={[
+                { label: "Pay suppliers in China", href: "/pay-suppliers-in-china-from-nigeria" },
+                { label: "Pay suppliers in Dubai", href: "/pay-suppliers-in-dubai-from-nigeria" },
+                { label: "Supplier payment checklist", href: "/blog/supplier-payment-checklist" },
+              ]}
+            />
           </div>
           <EnquiryForm
             id="importer-enquiry"

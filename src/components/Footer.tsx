@@ -17,6 +17,15 @@ const footerLinks = {
     { label: "FAQ", href: "/faq" },
     { label: "Treasury Desk", href: "/contact" },
   ],
+  Resources: [
+    { label: "Blog", href: "/blog" },
+    { label: "Dollar to naira", href: "/rates/usd-to-ngn" },
+    { label: "Pound to naira", href: "/rates/gbp-to-ngn" },
+    { label: "Euro to naira", href: "/rates/eur-to-ngn" },
+    { label: "Pay suppliers in China", href: "/pay-suppliers-in-china-from-nigeria" },
+    { label: "Pay suppliers in Dubai", href: "/pay-suppliers-in-dubai-from-nigeria" },
+    { label: "OTC desk in Lagos", href: "/otc-fx-desk-lagos" },
+  ],
   Platform: [
     { label: "Open Platform", href: ONBOARDING_URL, external: true },
     { label: "How it works", href: "/products#how-it-works" },
@@ -27,7 +36,7 @@ export function Footer() {
   return (
     <footer className="overflow-hidden bg-zender-navy pt-16 text-white">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
           <div className="sm:col-span-2 lg:col-span-2">
             <p className="max-w-sm text-sm leading-relaxed text-white/70">
               {BRAND_TAGLINE} A modern African cross-border finance and treasury

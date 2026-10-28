@@ -3,10 +3,26 @@ import { Footer } from "@/components/Footer";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { RichCta } from "@/components/ui/RichCta";
 import { FAQ_ITEMS } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "FAQ: Cross-Border Payments & FX Rates",
+  description:
+    "Answers about how Zender Finance works, who it serves, how indicative FX rates are shown, licensing, and how to get started with the treasury desk.",
+  path: "/faq",
+  keywords: ["Zender Finance FAQ", "how to send money abroad from Nigeria", "indicative FX rates"],
+});
 
 export default function FaqPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: "FAQ", path: "/faq" }]),
+          faqJsonLd(FAQ_ITEMS),
+        ]}
+      />
       <SiteHeader />
       <main className="overflow-hidden">
         <RichPageHero

@@ -174,3 +174,71 @@ body {
 .font-nav {
   font-family: var(--font-nav);
 }
+
+/* Blog article body: Markdown rendered from src/content/blog */
+.prose-zender {
+  color: rgb(3 28 102 / 0.8);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-zender > * + * {
+  margin-top: 1.25rem;
+}
+.prose-zender h2 {
+  margin-top: 2.75rem;
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #031c66;
+}
+.prose-zender h3 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #031c66;
+}
+.prose-zender a {
+  color: #00a368;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-zender a:hover {
+  color: #031c66;
+}
+.prose-zender ul,
+.prose-zender ol {
+  padding-left: 1.4rem;
+}
+.prose-zender ul {
+  list-style: disc;
+}
+.prose-zender ol {
+  list-style: decimal;
+}
+.prose-zender li + li {
+  margin-top: 0.5rem;
+}
+.prose-zender li::marker {
+  color: #00bb76;
+}
+.prose-zender strong {
+  color: #031c66;
+  font-weight: 600;
+}
+.prose-zender blockquote {
+  border-left: 3px solid #00bb76;
+  padding-left: 1.25rem;
+  color: rgb(3 28 102 / 0.75);
+}
+.prose-zender table {
+  width: 100%;
+  font-size: 0.9375rem;
+  border-collapse: collapse;
+}
+.prose-zender th,
+.prose-zender td {
+  border-bottom: 1px solid rgb(3 28 102 / 0.12);
+  padding: 0.6rem 0.5rem;
+  text-align: left;
+}

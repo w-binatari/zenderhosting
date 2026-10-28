@@ -6,6 +6,16 @@ import {
 } from "@/components/fx-rates/FxRatesPageContent";
 import { RichCta } from "@/components/ui/RichCta";
 import { getFxRates } from "@/lib/fx-rates";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Dollar, Pound & Euro to Naira Rates (USD, GBP, EUR to NGN)",
+  description:
+    "Indicative USD, GBP, and EUR to naira desk rates with a currency converter. Confirm the final rate with the Zender treasury desk before you transfer.",
+  path: "/fx-rates",
+  keywords: ["dollar to naira rate", "pound to naira rate", "euro to naira rate", "USD to NGN", "naira exchange rate today"],
+});
 
 /** Re-read desk and market rates hourly instead of freezing them at build time. */
 export const revalidate = 3600;
@@ -15,6 +25,7 @@ export default async function FxRatesPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "FX Rates", path: "/fx-rates" }])} />
       <SiteHeader />
       <main className="overflow-hidden">
         <FxRatesHero />
