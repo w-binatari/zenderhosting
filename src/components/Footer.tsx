@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ZenderLogo, ZenderWordmark } from "@/components/brand/ZenderLogo";
 import { SocialLinks } from "@/components/SocialLinks";
 import { BRAND_TAGLINE, ONBOARDING_URL } from "@/lib/site";
 
@@ -36,9 +36,12 @@ export function Footer() {
   return (
     <footer className="overflow-hidden bg-zender-navy pt-16 text-white">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
-          <div className="sm:col-span-2 lg:col-span-2">
-            <p className="max-w-sm text-sm leading-relaxed text-white/70">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-6">
+          <div className="col-span-2">
+            <Link href="/" aria-label="Zender Finance home" className="inline-block">
+              <ZenderLogo title="" className="h-10 w-auto text-white" />
+            </Link>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/70">
               {BRAND_TAGLINE} A modern African cross-border finance and treasury
               partner built on responsiveness, execution, and trusted relationships.
             </p>
@@ -97,18 +100,12 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 w-full px-3 pb-2 sm:px-4 sm:pb-3 lg:px-5">
-        <Link href="/" aria-label="Zender Finance home" className="block">
-          <Image
-            src="/zender_wordmark.png"
-            alt="Zender"
-            width={631}
-            height={114}
-            priority={false}
-            className="h-auto w-full select-none object-contain object-center"
-            sizes="100vw"
-          />
-        </Link>
+      {/* Signature wordmark: traced vector, so it stays sharp at any width. */}
+      <div className="mt-12 px-4 pb-4 sm:px-6 sm:pb-6 lg:px-8">
+        <ZenderWordmark
+          title=""
+          className="mx-auto block h-auto w-full max-w-[90rem] select-none text-white"
+        />
       </div>
     </footer>
   );
