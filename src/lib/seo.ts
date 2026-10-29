@@ -76,7 +76,12 @@ export function organizationJsonLd() {
     "@id": `${SITE_URL}/#organization`,
     name: BRAND_NAME,
     url: SITE_URL,
-    logo: absoluteUrl("/colored_logo.png"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/logo-512.png"),
+      width: 512,
+      height: 512,
+    },
     image: absoluteUrl("/og-image.jpg"),
     description: BRAND_DESCRIPTION,
     email: CONTACT_EMAIL,

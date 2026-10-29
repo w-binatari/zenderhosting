@@ -27,9 +27,6 @@ export const metadata: Metadata = {
     template: `%s | ${BRAND_NAME}`,
   },
   description: BRAND_DESCRIPTION,
-  icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }],
-  },
   openGraph: {
     type: "website",
     locale: "en_NG",
