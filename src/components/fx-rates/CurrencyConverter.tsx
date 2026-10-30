@@ -10,8 +10,7 @@ import {
   type QuoteCurrency,
 } from "@/lib/convert";
 
-const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-zender-navy/15 bg-white px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal";
+const fieldClass = "field";
 
 type CurrencyConverterProps = {
   currencies: QuoteCurrency[];
@@ -57,9 +56,9 @@ export function CurrencyConverter({ currencies }: CurrencyConverterProps) {
   if (!from || !to) return null;
 
   return (
-    <div className="glass-card rounded-2xl p-6 shadow-xl sm:p-8">
+    <div className="panel p-6 sm:p-8">
       <div>
-        <label htmlFor="convert-amount" className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+        <label htmlFor="convert-amount" className="field-label">
           Amount
         </label>
         <input
@@ -85,7 +84,7 @@ export function CurrencyConverter({ currencies }: CurrencyConverterProps) {
             setFromCode(to.code);
             setToCode(from.code);
           }}
-          className="mb-0.5 inline-flex h-12 w-12 items-center justify-center justify-self-center rounded-full border border-zender-navy/15 text-zender-navy transition hover:border-zender-teal hover:text-zender-teal"
+          className="mb-0.5 inline-flex h-12 w-12 items-center justify-center justify-self-center rounded-lg border border-zender-navy/20 text-zender-navy transition hover:border-zender-teal hover:text-zender-teal"
           aria-label="Swap currencies"
         >
           ⇄
@@ -99,15 +98,15 @@ export function CurrencyConverter({ currencies }: CurrencyConverterProps) {
         />
       </div>
 
-      <div className="mt-6 rounded-2xl bg-zender-mint/60 px-5 py-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
+      <div className="mt-6 rounded-lg bg-zender-tint px-5 py-5">
+        <p className="text-sm font-semibold text-zender-navy/70">
           Indicative amount
         </p>
         <p className="mt-2 text-3xl font-semibold tabular-nums text-zender-navy">
           {result === null ? "—" : formatMoney(result, to.code)}
         </p>
         {unit !== null && from.code !== to.code ? (
-          <p className="mt-2 text-sm text-zender-navy/60">
+          <p className="mt-2 text-sm text-zender-navy/70">
             1 {from.code} = {formatMoney(unit, to.code)}
           </p>
         ) : null}
@@ -115,11 +114,11 @@ export function CurrencyConverter({ currencies }: CurrencyConverterProps) {
 
       <Link
         href={deskHref}
-        className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-zender-teal px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-zender-navy"
+        className="btn btn-primary mt-6 w-full"
       >
         Confirm this amount with the desk
       </Link>
-      <p className="mt-3 text-center text-xs leading-relaxed text-zender-navy/50">
+      <p className="mt-3 text-center text-xs leading-relaxed text-zender-navy/70">
         Same desk references as the rate board on this page. This is not a
         confirmed rate and it is not a payment instruction.
       </p>
@@ -142,7 +141,7 @@ function CurrencySelect({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+      <label htmlFor={id} className="field-label">
         {label}
       </label>
       <div className="relative mt-1.5">
@@ -154,7 +153,7 @@ function CurrencySelect({
           value={value}
           title={currencies.find((currency) => currency.code === value)?.name}
           onChange={(event) => onChange(event.target.value)}
-          className="w-full appearance-none rounded-xl border border-zender-navy/15 bg-white py-3 pl-12 pr-8 text-sm font-medium text-zender-navy outline-none transition focus:border-zender-teal"
+          className="w-full appearance-none rounded-lg border border-zender-navy/20 bg-white py-3 pl-12 pr-8 text-sm font-medium text-zender-navy outline-none transition focus:border-zender-teal"
         >
           {currencies.map((currency) => (
             <option key={currency.code} value={currency.code}>

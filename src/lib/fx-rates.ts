@@ -129,4 +129,3 @@ export function formatNgnRate(rate: number): string {
   }).format(rate);
 }
 
-export { formatUpdatedAt } from "@/lib/rate-stamp";

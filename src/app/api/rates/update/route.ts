@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import {
@@ -8,6 +9,12 @@ import {
 } from "@/lib/desk-rates";
 
 export const runtime = "nodejs";
+
+function isAuthorized(request: Request, secret: string): boolean {
+  const received = Buffer.from(request.headers.get("authorization") ?? "");
+  const expected = Buffer.from(`Bearer ${secret}`);
+  return received.length === expected.length && timingSafeEqual(received, expected);
+}
 
 /**
  * Backup update endpoint (curl / Shortcuts) when WhatsApp is unavailable.
@@ -23,8 +30,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const auth = request.headers.get("authorization");
-  if (auth !== `Bearer ${secret}`) {
+  if (!isAuthorized(request, secret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -74,9 +80,8 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   const secret = process.env.RATES_UPDATE_SECRET;
-  const auth = request.headers.get("authorization");
 
-  if (!secret || auth !== `Bearer ${secret}`) {
+  if (!secret || !isAuthorized(request, secret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

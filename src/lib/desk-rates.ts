@@ -53,7 +53,11 @@ export async function getDeskRatesStore(): Promise<DeskRatesStore> {
 }
 
 export function parseRatesMessage(text: string): Record<string, number> | null {
+  // Strip WhatsApp markdown, currency glyphs, and arrows so desk paste works.
   const cleaned = text
+    .replace(/\*/g, "")
+    .replace(/[₦$£€]/g, " ")
+    .replace(/[➜→⟶➢]/g, " ")
     .replace(/^(rates?|update|set)\s*[:=\-]?\s*/i, "")
     .trim();
 
@@ -69,8 +73,8 @@ export function parseRatesMessage(text: string): Record<string, number> | null {
 
   const rates: Record<string, number> = {};
   for (const match of pairs) {
-    const code = match[1].toUpperCase();
-    const value = Number(match[2].replace(/,/g, ""));
+    const code = match[1]!.toUpperCase();
+    const value = Number(match[2]!.replace(/,/g, ""));
     if (!Number.isFinite(value) || value <= 0) continue;
     rates[code] = value;
   }
@@ -78,10 +82,29 @@ export function parseRatesMessage(text: string): Record<string, number> | null {
   return Object.keys(rates).length > 0 ? rates : null;
 }
 
+/** Keep only desk currencies with a finite, positive naira rate. */
+function sanitizeRates(
+  rates: Record<string, unknown>,
+): Partial<Record<DeskRateCode, number>> {
+  const accepted: Partial<Record<DeskRateCode, number>> = {};
+  for (const code of DESK_RATE_CODES) {
+    const value = rates[code];
+    if (typeof value === "number" && Number.isFinite(value) && value > 0 && value < 1_000_000) {
+      accepted[code] = value;
+    }
+  }
+  return accepted;
+}
+
 export async function saveDeskRates(
   partialRates: Record<string, number>,
   updatedBy: string,
 ): Promise<DeskRatesStore> {
+  const accepted = sanitizeRates(partialRates);
+  if (Object.keys(accepted).length === 0) {
+    throw new Error("No valid USD, GBP, or EUR rate in the update.");
+  }
+
   const current = await getDeskRatesStore();
   const next: DeskRatesStore = {
     quoteCurrency: "NGN",
@@ -89,7 +112,7 @@ export async function saveDeskRates(
     updatedBy,
     rates: {
       ...current.rates,
-      ...partialRates,
+      ...accepted,
     },
   };
 
