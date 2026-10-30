@@ -185,11 +185,6 @@ export const FAQ_ITEMS = [
       "Rates on the website are indicative treasury desk references and are updated by our team. Final rates are confirmed at the point of transfer or treasury conversation on our platform or desk.",
   },
   {
-    question: "Is Zender licensed?",
-    answer:
-      "Zender currently holds a lending license directly. All descriptions of treasury operations, partnerships, and cross-border capabilities are positioned carefully and in line with our current operational scope.",
-  },
-  {
     question: "How do I get started?",
     answer:
       "The best first step is to contact our treasury desk to discuss your needs. If you are ready to onboard, you can also access our web onboarding platform.",

@@ -9,7 +9,7 @@ import { pageMetadata, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "FAQ: Cross-Border Payments & FX Rates",
   description:
-    "Answers about how Zender Finance works, who it serves, how indicative FX rates are shown, licensing, and how to get started with the treasury desk.",
+    "Answers about how Zender Finance works, who it serves, how indicative FX rates are shown, and how to get started with the treasury desk.",
   path: "/faq",
   keywords: ["Zender Finance FAQ", "how to send money abroad from Nigeria", "indicative FX rates"],
 });

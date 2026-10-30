@@ -16,6 +16,17 @@ body {
   height: 100%;
 }
 
+/*
+ * Paragraphs are justified site-wide. This sits in the base layer so
+ * alignment utilities (text-center, text-right) on a paragraph still win.
+ */
+@layer base {
+  p {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 body {
   background: white;
   color: #031c66;
@@ -215,6 +226,10 @@ body {
 }
 .prose-zender ol {
   list-style: decimal;
+}
+.prose-zender li {
+  text-align: justify;
+  hyphens: auto;
 }
 .prose-zender li + li {
   margin-top: 0.5rem;

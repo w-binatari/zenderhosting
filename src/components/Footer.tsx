@@ -46,6 +46,22 @@ export function Footer() {
               partner built on responsiveness, execution, and trusted relationships.
             </p>
             <SocialLinks className="mt-6" variant="dark" />
+            <p className="mt-6 inline-flex items-center gap-2 rounded-lg border border-zender-teal/40 bg-white/5 px-3 py-2 text-xs font-semibold text-white">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4 shrink-0 text-zender-teal"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+              Fully licensed &amp; regulated partners
+            </p>
           </div>
 
           {Object.entries(footerLinks).map(([title, links]) => (
