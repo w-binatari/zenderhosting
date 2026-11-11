@@ -135,7 +135,7 @@ export function CountrySelector() {
           id={listId}
           role="listbox"
           aria-label="African countries"
-          className="absolute right-0 top-full z-50 mt-3 min-w-[11rem] overflow-hidden rounded-xl border border-white/15 bg-[#031C66] py-1.5 shadow-2xl"
+          className="absolute right-0 top-full z-50 mt-3 min-w-[11rem] overflow-hidden rounded-lg border border-white/15 bg-[#031C66] py-1.5"
         >
           {countries.map((country) => {
             const isSelected = country.code === selected.code;

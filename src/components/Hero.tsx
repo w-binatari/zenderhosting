@@ -41,15 +41,7 @@ export function HeroBackground() {
         sizes="100vw"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-[#031C66]/40"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#021540]/80 via-[#031C66]/25 to-[#021540]/85"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#00BB76]/30 via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#021540]/80 via-[#021540]/50 to-[#021540]/85"
         aria-hidden="true"
       />
     </div>

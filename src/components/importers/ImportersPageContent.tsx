@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
+import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { FramedPhoto } from "@/components/ui/FramedPhoto";
 import { RichPageHero } from "@/components/ui/RichPageHero";
 import { PHOTOS } from "@/lib/photos";
@@ -37,31 +38,10 @@ function InvoiceVisual() {
   return (
     <FramedPhoto
       photo={PHOTOS.lagosHarbour}
-      className="min-h-[32rem]"
+      className="min-h-[24rem]"
       imageClassName="object-cover object-center"
       sizes="(min-width: 1024px) 36rem, 100vw"
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-[#021540]/75 via-[#021540]/10 to-[#021540]/20" />
-      <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/70 bg-white/95 p-6 shadow-xl">
-        <p className="text-xs font-semibold uppercase tracking-wider text-zender-teal">
-          Supplier invoice
-        </p>
-        <p className="mt-2 text-lg font-semibold text-zender-navy">USD 48,500</p>
-        <p className="mt-1 text-sm text-zender-navy/55">Ningbo factory · due in 9 days</p>
-        <dl className="mt-6 space-y-3 text-sm">
-          {[
-            ["Corridor", "NGN → USD"],
-            ["Timeline", "This week"],
-            ["Status", "Waiting on the desk"],
-          ].map(([label, value]) => (
-            <div key={label} className="flex items-center justify-between rounded-xl bg-zender-mint/50 px-4 py-3">
-              <dt className="text-zender-navy/55">{label}</dt>
-              <dd className="font-medium text-zender-navy">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </FramedPhoto>
+    />
   );
 }
 
@@ -69,87 +49,92 @@ export function ImportersPageContent() {
   return (
     <>
       <RichPageHero
-        eyebrow="Importers"
         title="Pay an overseas supplier without guessing the timeline."
         description="For Nigerian businesses settling invoices with factories, wholesalers, and agents abroad. Start with the amount, the corridor, and the date the supplier needs the funds."
-        pills={["Supplier invoices", "NGN to USD, CNY, EUR, GBP, AED", "Desk conversation"]}
         visual={<InvoiceVisual />}
       />
 
-      <section className="bg-white px-6 py-20 lg:px-8">
+      <section className="section bg-white">
         <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-2">
           <div>
-            <p className="nav-link text-zender-teal">The payment</p>
-            <h2 className="mt-4 text-3xl font-semibold text-zender-navy">
+            <h2 className="section-h2 text-zender-navy">
               The invoice is in their currency. Your account is in naira.
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
-              A factory in Ningbo, a wholesaler in Hamburg, or an agent in Dubai
-              has sent a bill. The shipment moves when they see the funds. The
+            <p className="lede">
+              You trade from Alaba, Trade Fair, or Idumota, and a factory in
+              China, a wholesaler in Hamburg, or an agent in Dubai has sent a
+              bill. The shipment moves when they see the funds. The
               useful question is not a slogan about trust. It is whether the
               desk can talk through this invoice, at what indicative level, and
               whether that fits the supplier&apos;s date.
             </p>
-            <p className="mt-4 text-base leading-relaxed text-zender-navy/65">
+            <p className="lede">
               This page opens that conversation. It does not confirm a rate and
               it is not a payment instruction.
             </p>
             <Link
               href="/fx-rates"
-              className="mt-6 inline-flex text-sm font-semibold text-zender-teal transition hover:text-zender-navy"
+              className="text-link mt-6 inline-block"
             >
               Indicative FX references →
             </Link>
           </div>
-          <ol className="space-y-4">
+          <ol className="divide-y divide-zender-navy/10 border-y border-zender-navy/10 self-start">
             {STEPS.map((item) => (
-              <li key={item.step} className="glass-card rounded-2xl p-5">
-                <p className="font-nav text-sm font-semibold text-zender-teal">{item.step}</p>
-                <h3 className="mt-2 font-semibold text-zender-navy">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zender-navy/65">{item.description}</p>
+              <li key={item.step} className="py-6">
+                <h3 className="font-semibold text-zender-navy">
+                  {item.step}. {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-zender-navy/70">{item.description}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="page-mesh px-6 py-20 lg:px-8">
+      <section className="section bg-zender-tint">
         <div className="mx-auto max-w-6xl">
-          <p className="nav-link text-zender-teal">Corridors</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold text-zender-navy">
+          <h2 className="section-h2 max-w-2xl text-zender-navy">
             Supplier currencies the desk is asked about
           </h2>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <dl className="mt-10 divide-y divide-zender-navy/10 border-y border-zender-navy/10">
             {CORRIDORS.map((item) => (
-              <li key={item.pair} className="glass-card rounded-2xl p-5">
-                <p className="font-semibold text-zender-navy">{item.pair}</p>
-                <p className="mt-2 text-sm text-zender-navy/60">{item.use}</p>
-              </li>
+              <div key={item.pair} className="grid gap-1 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                <dt className="font-semibold text-zender-navy">{item.pair}</dt>
+                <dd className="text-sm text-zender-navy/70">{item.use}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
         </div>
       </section>
 
-      <section className="dot-grid bg-white px-6 py-20 lg:px-8">
+      <section className="section bg-white">
         <div className="mx-auto grid max-w-6xl items-start gap-14 lg:grid-cols-2">
           <div>
-            <p className="nav-link text-zender-teal">Have ready</p>
-            <h2 className="mt-4 text-3xl font-semibold text-zender-navy">
+            <h2 className="section-h2 text-zender-navy">
               Three facts, then the invoice if you have it
             </h2>
-            <ul className="mt-8 space-y-3 text-sm text-zender-navy/75">
+            <ul className="mt-8 divide-y divide-zender-navy/10 border-y border-zender-navy/10 text-sm text-zender-navy/70">
               {[
                 "Invoice amount and the currency the supplier billed",
                 "Corridor, from naira to that currency",
                 "The date the supplier needs the funds",
                 "Supplier name and country, if you want them on the note",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zender-teal" />
+                <li key={item} className="flex items-start gap-3 py-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zender-teal" />
                   {item}
                 </li>
               ))}
             </ul>
+            <RelatedLinks
+              heading="Guides by destination"
+              links={[
+                { label: "Pay suppliers in China", href: "/pay-suppliers-in-china-from-nigeria" },
+                { label: "Pay suppliers in Dubai", href: "/pay-suppliers-in-dubai-from-nigeria" },
+                { label: "Supplier payment checklist", href: "/blog/supplier-payment-checklist" },
+              ]}
+            />
           </div>
           <EnquiryForm
             id="importer-enquiry"

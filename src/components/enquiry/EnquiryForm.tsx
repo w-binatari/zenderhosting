@@ -9,8 +9,25 @@ import {
 } from "@/lib/enquiries";
 import { CONTACT_EMAIL, whatsAppHref } from "@/lib/site";
 
-const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-zender-navy/15 px-4 py-3 text-sm text-zender-navy outline-none transition focus:border-zender-teal";
+const fieldClass = "field";
+
+const FALLBACK_MESSAGE =
+  "The desk could not log this automatically. Send it straight to the desk below, your details are already filled in.";
+
+/** Plain-text copy of the enquiry for the WhatsApp and email fallbacks. */
+function enquirySummary(data: FormData): string {
+  const value = (key: string) => String(data.get(key) ?? "").trim();
+  const lines = [
+    "Hello Zender desk. Website enquiry:",
+    `Name: ${value("name")}`,
+    `Email: ${value("email")}`,
+    `Amount: ${value("amount")} ${value("currency")}`,
+    `Corridor: ${value("corridor")}`,
+    `Timeline: ${value("timeline")}`,
+  ];
+  if (value("note")) lines.push(`Note: ${value("note")}`);
+  return lines.join("\n");
+}
 
 type EnquiryDefaults = {
   amount?: string;
@@ -45,6 +62,7 @@ export function EnquiryForm({
   const noteDefault = defaults?.note?.slice(0, 1000) || undefined;
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [fallbackText, setFallbackText] = useState("");
   const whatsApp = whatsAppHref(
     "Hello Zender desk. I would like to discuss a supplier or cross-border payment.",
   );
@@ -53,6 +71,7 @@ export function EnquiryForm({
     event.preventDefault();
     setStatus("sending");
     setMessage("");
+    setFallbackText("");
 
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -67,6 +86,7 @@ export function EnquiryForm({
       segment,
       companyWebsite: data.get("companyWebsite"),
     };
+    const summary = enquirySummary(data);
 
     try {
       const response = await fetch("/api/enquiries", {
@@ -77,10 +97,12 @@ export function EnquiryForm({
       const result = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) {
         setStatus("error");
-        setMessage(
-          result?.error ??
-            `The desk could not record this. Email ${CONTACT_EMAIL} with the amount, corridor, and timeline.`,
-        );
+        if (response.status === 400 && result?.error) {
+          setMessage(result.error);
+          return;
+        }
+        setMessage(FALLBACK_MESSAGE);
+        setFallbackText(summary);
         return;
       }
       setStatus("sent");
@@ -88,45 +110,43 @@ export function EnquiryForm({
       form.reset();
     } catch {
       setStatus("error");
-      setMessage(
-        `The desk could not record this. Email ${CONTACT_EMAIL} with the amount, corridor, and timeline.`,
-      );
+      setMessage(FALLBACK_MESSAGE);
+      setFallbackText(summary);
     }
   }
 
   return (
-    <form id={id} onSubmit={onSubmit} className="glass-card relative overflow-hidden rounded-2xl p-8 shadow-xl">
-      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-zender-teal/10 blur-2xl" />
-      <h3 className="relative text-lg font-semibold text-zender-navy">{heading}</h3>
-      <p className="relative mt-2 text-sm text-zender-navy/55">{intro}</p>
+    <form id={id} onSubmit={onSubmit} className="panel p-6 sm:p-8">
+      <h3 className="text-lg font-semibold text-zender-navy">{heading}</h3>
+      <p className="mt-2 text-sm text-zender-navy/70">{intro}</p>
 
-      <div className="relative mt-6 space-y-4">
+      <div className="mt-6 space-y-4">
         <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
           <label htmlFor={`${id}-company-website`}>Company website</label>
           <input id={`${id}-company-website`} name="companyWebsite" tabIndex={-1} autoComplete="off" />
         </div>
 
         <div>
-          <label htmlFor={`${id}-name`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+          <label htmlFor={`${id}-name`} className="field-label">
             Full name
           </label>
           <input id={`${id}-name`} name="name" type="text" required autoComplete="name" placeholder="Your name" className={fieldClass} />
         </div>
         <div>
-          <label htmlFor={`${id}-email`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+          <label htmlFor={`${id}-email`} className="field-label">
             Work email
           </label>
           <input id={`${id}-email`} name="email" type="email" required autoComplete="email" placeholder="you@company.com" className={fieldClass} />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor={`${id}-amount`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+            <label htmlFor={`${id}-amount`} className="field-label">
               Amount
             </label>
             <input id={`${id}-amount`} name="amount" type="number" required min="1" step="0.01" inputMode="decimal" placeholder="25000" defaultValue={amountDefault} className={fieldClass} />
           </div>
           <div>
-            <label htmlFor={`${id}-currency`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+            <label htmlFor={`${id}-currency`} className="field-label">
               Currency
             </label>
             <select id={`${id}-currency`} name="currency" required defaultValue={currencyDefault} className={fieldClass}>
@@ -137,7 +157,7 @@ export function EnquiryForm({
           </div>
         </div>
         <div>
-          <label htmlFor={`${id}-corridor`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+          <label htmlFor={`${id}-corridor`} className="field-label">
             Corridor
           </label>
           <select id={`${id}-corridor`} name="corridor" required defaultValue={corridorDefault} className={fieldClass}>
@@ -150,7 +170,7 @@ export function EnquiryForm({
           </select>
         </div>
         <div>
-          <label htmlFor={`${id}-timeline`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
+          <label htmlFor={`${id}-timeline`} className="field-label">
             Timeline
           </label>
           <select id={`${id}-timeline`} name="timeline" required defaultValue="" className={fieldClass}>
@@ -163,8 +183,8 @@ export function EnquiryForm({
           </select>
         </div>
         <div>
-          <label htmlFor={`${id}-note`} className="block text-xs font-medium uppercase tracking-wider text-zender-navy/55">
-            Invoice note <span className="normal-case tracking-normal">(optional)</span>
+          <label htmlFor={`${id}-note`} className="field-label">
+            Invoice note <span className="font-normal text-zender-navy/70">(optional)</span>
           </label>
           <textarea id={`${id}-note`} name="note" rows={3} placeholder="Supplier country, invoice reference, or anything the desk should know" defaultValue={noteDefault} className={`${fieldClass} resize-none`} />
         </div>
@@ -172,7 +192,7 @@ export function EnquiryForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="w-full rounded-full bg-zender-teal py-3.5 text-sm font-semibold text-white transition hover:bg-zender-navy disabled:opacity-60"
+          className="btn btn-primary w-full disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : "Send to the desk"}
         </button>
@@ -183,12 +203,32 @@ export function EnquiryForm({
           </p>
         ) : null}
 
-        {whatsApp ? (
+        {fallbackText ? (
+          <div className="flex flex-col gap-2 sm:flex-row">
+            {whatsAppHref(fallbackText) ? (
+              <a
+                href={whatsAppHref(fallbackText)!}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary flex-1 gap-2"
+              >
+                <WhatsAppIcon />
+                Send on WhatsApp
+              </a>
+            ) : null}
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(fallbackText)}`}
+              className="btn btn-secondary flex-1"
+            >
+              Send by email
+            </a>
+          </div>
+        ) : whatsApp ? (
           <a
             href={whatsApp}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-full border border-[#128C7E]/30 bg-[#128C7E] py-3.5 text-sm font-semibold text-white transition hover:bg-[#075E54]"
+            className="btn btn-secondary w-full gap-2"
           >
             <WhatsAppIcon />
             WhatsApp the desk

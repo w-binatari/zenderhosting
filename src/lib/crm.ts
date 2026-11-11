@@ -65,7 +65,7 @@ export async function recordEnquiry(enquiry: Enquiry): Promise<void> {
     properties: {
       email: enquiry.email,
       firstname: first,
-      lastname: rest.join(" ") || first,
+      ...(rest.length > 0 ? { lastname: rest.join(" ") } : {}),
     },
   });
 
