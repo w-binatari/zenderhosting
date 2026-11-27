@@ -6,6 +6,7 @@
   --color-zender-navy: #031c66;
   --color-zender-navy-deep: #021540;
   --color-zender-mint: #e8f7f5;
+  --color-zender-tint: #f4f8f7;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-nav: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
 }
@@ -15,6 +16,17 @@ body {
   height: 100%;
 }
 
+/*
+ * Paragraphs are justified site-wide. This sits in the base layer so
+ * alignment utilities (text-center, text-right) on a paragraph still win.
+ */
+@layer base {
+  p {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 body {
   background: white;
   color: #031c66;
@@ -22,40 +34,146 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smoked crystal, darker frost, strong blur, soft teal edge glow */
+/*
+ * Shared patterns. Surfaces are white, tint, or navy. Corners are 8px
+ * (rounded-lg) everywhere except true circles. Text uses the navy full
+ * strength and one secondary tone.
+ */
+@layer components {
+  .section {
+    padding: 5rem 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .section {
+      padding: 6rem 2rem;
+    }
+  }
+
+  .section-h2 {
+    font-size: 1.875rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  @media (min-width: 40rem) {
+    .section-h2 {
+      font-size: 2.25rem;
+    }
+  }
+
+  .lede {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgb(3 28 102 / 0.68);
+  }
+
+  .on-dark .lede {
+    color: rgb(255 255 255 / 0.72);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .btn-primary {
+    background: #00bb76;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #031c66;
+  }
+
+  .btn-secondary {
+    border: 1px solid rgb(3 28 102 / 0.25);
+    color: #031c66;
+  }
+
+  .btn-secondary:hover {
+    border-color: #031c66;
+  }
+
+  .on-dark .btn-primary {
+    background: #fff;
+    color: #031c66;
+  }
+
+  .on-dark .btn-primary:hover {
+    background: #e8f7f5;
+  }
+
+  .on-dark .btn-secondary {
+    border-color: rgb(255 255 255 / 0.5);
+    color: #fff;
+  }
+
+  .on-dark .btn-secondary:hover {
+    border-color: #fff;
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .text-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #00bb76;
+    transition: color 0.15s;
+  }
+
+  .text-link:hover {
+    color: #031c66;
+  }
+
+  .field {
+    margin-top: 0.375rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(3 28 102 / 0.2);
+    background: #fff;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #031c66;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field:focus {
+    border-color: #00bb76;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: rgb(3 28 102 / 0.75);
+  }
+
+  .panel {
+    border-radius: 0.5rem;
+    border: 1px solid rgb(3 28 102 / 0.12);
+    background: #fff;
+  }
+}
+
+/* The one place blur earns its keep: controls sitting directly on the hero photograph. */
 .glass-panel {
-  background: rgba(8, 32, 72, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 0 0 1px rgba(0, 187, 118, 0.12),
-    0 20px 60px rgba(3, 28, 102, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(40px) saturate(160%) brightness(1.05);
-  -webkit-backdrop-filter: blur(40px) saturate(160%) brightness(1.05);
-}
-
-/* Light glass, frosted panels on white / mint backgrounds */
-.glass-card {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow:
-    0 0 0 1px rgba(3, 28, 102, 0.05),
-    0 8px 32px rgba(3, 28, 102, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-}
-
-.glass-card-dark {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgb(8 32 72 / 0.78);
+  border: 1px solid rgb(255 255 255 / 0.22);
   backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
 }
 
+/* Header navigation only. */
 .nav-link {
   font-family: var(--font-nav);
   font-size: 0.8125rem;
@@ -68,22 +186,74 @@ body {
   font-family: var(--font-nav);
 }
 
-/* Page backgrounds */
-.page-mesh {
-  background-color: #f7fcfa;
-  background-image:
-    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(0, 187, 118, 0.18), transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 20%, rgba(3, 28, 102, 0.08), transparent 50%),
-    linear-gradient(180deg, #f7fcfa 0%, #ffffff 100%);
+/* Blog article body: Markdown rendered from src/content/blog */
+.prose-zender {
+  color: rgb(3 28 102 / 0.8);
+  font-size: 1.0625rem;
+  line-height: 1.75;
 }
-
-.page-mesh-dark {
-  background-image:
-    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(0, 187, 118, 0.15), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(255, 255, 255, 0.06), transparent 50%);
+.prose-zender > * + * {
+  margin-top: 1.25rem;
 }
-
-.dot-grid {
-  background-image: radial-gradient(circle, rgba(3, 28, 102, 0.07) 1px, transparent 1px);
-  background-size: 24px 24px;
+.prose-zender h2 {
+  margin-top: 2.75rem;
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #031c66;
+}
+.prose-zender h3 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #031c66;
+}
+.prose-zender a {
+  color: #00a368;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-zender a:hover {
+  color: #031c66;
+}
+.prose-zender ul,
+.prose-zender ol {
+  padding-left: 1.4rem;
+}
+.prose-zender ul {
+  list-style: disc;
+}
+.prose-zender ol {
+  list-style: decimal;
+}
+.prose-zender li {
+  text-align: justify;
+  hyphens: auto;
+}
+.prose-zender li + li {
+  margin-top: 0.5rem;
+}
+.prose-zender li::marker {
+  color: #00bb76;
+}
+.prose-zender strong {
+  color: #031c66;
+  font-weight: 600;
+}
+.prose-zender blockquote {
+  border-left: 3px solid #00bb76;
+  padding-left: 1.25rem;
+  color: rgb(3 28 102 / 0.75);
+}
+.prose-zender table {
+  width: 100%;
+  font-size: 0.9375rem;
+  border-collapse: collapse;
+}
+.prose-zender th,
+.prose-zender td {
+  border-bottom: 1px solid rgb(3 28 102 / 0.12);
+  padding: 0.6rem 0.5rem;
+  text-align: left;
 }
