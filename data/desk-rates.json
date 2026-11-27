@@ -1,10 +1,10 @@
 {
   "quoteCurrency": "NGN",
-  "updatedAt": "2026-11-25T08:30:00.000Z",
+  "updatedAt": "2026-11-27T08:30:00.000Z",
   "updatedBy": "manual",
   "rates": {
-    "USD": 1448,
-    "GBP": 1915,
-    "EUR": 1615
+    "USD": 1449,
+    "GBP": 1906,
+    "EUR": 1602
   }
 }
